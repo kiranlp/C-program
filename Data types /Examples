@@ -1,0 +1,7 @@
+#include<stdio.h>
+int main()
+{
+ unsigned char ch=260;
+ printf(" %d \n ", ch);
+ return 0;
+}
