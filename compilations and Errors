@@ -1,0 +1,20 @@
+COMPILATION steps-
+
+1) Preprocessor : i/p= .c    -headerfile(declaration error)
+                  o/p= .i    - removes comments
+                             - macroreplacement
+                             - conditional compilation.
+2) Translator  : i/p= .i     - Syntax errors
+                 o/p= .s     - convert code to ASM file
+
+3) Assembler   : i/p= .s     
+                 o/p= .o     - convert code into opcodes
+
+4) Linker   : i/p= .o        - adds OS information
+              o/p= .a.out    - links with library( defnition errors)
+
+
+ERRORS  -           compile time errors   and   runtime errors
+                    preprocessor                 segmentation fault
+                    Translator                   bus error
+                    Linker                       floating point exception error.
