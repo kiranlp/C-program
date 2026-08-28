@@ -1,0 +1,10 @@
+OPERATORS -
+
+1) Arithmetic operator - + - * /  %(modulus)
+2) Relational operator -  > < >= <=  == !
+3) Assigment Operator - = ( modifies operands)
+4) shift operator - >>  <<
+5) Bitwise operators -  &  |  ^  ~
+6) Conditional operator - ?  :
+7) increase and decrease operator - ++  --
+other -  []  .  ->  +=  -=  *=
