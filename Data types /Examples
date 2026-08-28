@@ -1,7 +1,16 @@
 #include<stdio.h>
 int main()
 {
- unsigned char ch=260;
- printf(" %d \n ", ch);
+//unsigned char ch=260;
+//pintf(" %d \n ", ch);
+
+// char ch=500;
+//unsigned char ch1=500;
+
+// char ch=-200;
+// unsigned char ch2=-200;
+
+// unsigned char ch=-20
+// signed char ch2= 40;
  return 0;
 }
