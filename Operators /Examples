@@ -1,0 +1,50 @@
+1) Swapping  two numbers using - third variable
+
+#include<stdio.h>
+int main()
+{
+int i=100, j=200, t;
+printf(" befor: i=%d j=%d \n",i, j);
+t=i;
+i=j;
+j=t;
+printf(" after: i=%d j=%d \n" i,j);
+return 0;
+}
+
+2) Swapping two numbers without third variable
+#include<stdio.h>
+int main()
+{
+int k=50, l=20;
+printf(" before: k=%d l=%d \n", k,l);
+k=k+l;
+l=k-l;
+k=k-l;
+printf(" after: k=%d l=%d \n", k,l);
+return 0;
+}
+
+3) Swapping two numbers by single line of code
+
+#include<stdio.h>
+int main()
+{
+int k=10, l=20;
+printf(" before: k=%d l=%d \n", k,l);
+k=k+l-(l=i);
+printf(" after: k=%d l=%d \n", k,l);
+return 0;
+}
+
+4) Swapping last two numbers by single line of code
+
+#include<stdio.h>
+int main()
+{
+int num=3456, r;
+printf(" before: %d \n", num);
+r=num-(num%100)+(num%10)*10+(num/10)%10;
+printf(" after: %d \n", num);
+return 0;
+}
