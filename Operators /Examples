@@ -1,4 +1,4 @@
-1) Swapping  two numbers using - third variable
+1) Swapping  two numbers using - third variables
 
 #include<stdio.h>
 int main()
@@ -12,7 +12,7 @@ printf(" after: i=%d j=%d \n" i,j);
 return 0;
 }
 
-2) Swapping two numbers without third variable
+2) Swapping two numbers without third variables
 #include<stdio.h>
 int main()
 {
@@ -25,7 +25,7 @@ printf(" after: k=%d l=%d \n", k,l);
 return 0;
 }
 
-3) Swapping two numbers by single line of code
+3) Swapping two numbers using single line of code
 
 #include<stdio.h>
 int main()
@@ -37,7 +37,7 @@ printf(" after: k=%d l=%d \n", k,l);
 return 0;
 }
 
-4) Swapping last two numbers by single line of code
+4) Swapping last two numbers using operarors by  single line of code
 
 #include<stdio.h>
 int main()
