@@ -1,0 +1,86 @@
+WAP  to make SET/ON one particular BIT/LED , if BIT/LED is CLEAR/OFF, but if BIT/LED is already SET/ON then dont change the status of BIT/LED.
+
+#include<stdio.h>
+int main()
+{
+char num, pos;
+printf(" Enter the 1 byte of num: \n");
+scanf(" %hhd", &num);
+printf(" Enter the bit pos: \n");
+scanf(" %hhd", &pos);
+printf(num=%hhd \n", num);
+num= num | 1 << pos;                           // logic
+printf(" num=%hhd \n", num);
+return 0;
+}
+
+WAP  to make OFF/CLEAR  one particular LED/BIT , if LED/BIT is ON/SET, but if LED/BIT is already OFF/CLEAR then dont change the status of LED/BIT.
+
+#include<stdio.h>
+int main()
+{
+char num, pos;
+printf(" Enter the 1 byte of num: \n");
+scanf(" %hhd", &num);
+printf(" Enter the bit pos: \n");
+scanf(" %hhd", &pos);
+printf(num=%hhd \n", num);
+num= num & ~ ( 1<< pos );                    // logic
+printf(" num=%hhd \n", num);
+return 0;
+}
+
+
+WAP a logic to COMPLIMENT/TOGGLE one particular BIT/LED.
+
+#include<stdio.h>
+int main()
+{
+char num, pos;
+printf(" Enter the 1 byte of num: \n");
+scanf(" %hhd", &num);
+printf(" Enter the bit pos: \n");
+scanf(" %hhd", &pos);
+printf(num=%hhd \n", num);
+num= num ^ 1 << pos;                        // logic                      
+printf(" num=%hhd \n", num);
+return 0;
+}
+
+
+WAP to convert charecter from lower to upper case or upper to lower case.
+
+#include<stdio.h>
+int main()
+{
+char ch;
+printf(" Enter char : \n");
+scanf(" %c", &ch);
+printf("ch=%c \n", ch);
+ch= ch ^ 32;                              // logic                      
+printf(" ch=%c \n", ch);
+return 0;
+}
+
+
+WAP to check a status of BIT/LED     SET/CLEAR / ON/OFF .
+
+#include<stdio.h>
+int main()
+{
+char num, pos, r;
+printf(" Enter the 1 byte of num: \n");
+scanf(" %hhd", &num);
+printf(" Enter the bit pos: \n");
+scanf(" %hhd", &pos);
+printf(num=%hhd \n", num);
+r= num >> pos & 1;                        // logic for bit check                   
+r= num & 1 << pos;                        // logic for led status check
+printf(" num=%hhd \n", num);
+return 0;
+}
+
+
+
+
+
