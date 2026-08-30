@@ -1,0 +1,29 @@
+#include<stdio.h>
+int main()
+{
+int i=15, j=8, r;
+//r= i&j;                          // 8
+//r= i|j;                          // 15
+//r= i^j;                          // 7
+//r= ~i;                           // 16
+printf(" r=%d \n", r);
+return 0;
+}
+
+
+
+// For negetive numbers
+
+#include<stdio.h>
+int main()
+{
+int i=15, j=8, r;
+//r= i&j;                          // -16
+//r= i|j;                          // -7
+//r= i^j;                          // 9
+//r= ~i;                           // 14
+printf(" r=%d \n", r);
+return 0;
+}
+
+// 
