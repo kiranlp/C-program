@@ -3,9 +3,9 @@
 int main()
 {
   char ch;
-printf(" Enter the char: \n");
+printf(" Enter the char: \n");         // a
 scanf("%c", &ch);
-ch >=97  &&  ch <=122  ? printf(" lower case \n")  : printf(" uppercase \n");
+ch >=97  &&  ch <=122  ? printf(" lower case \n")  : printf(" uppercase \n");          // lower case
 return 0;
 }
 
@@ -17,8 +17,39 @@ int main()
 {
 int num;
 char ch;
-printf(" Enter anything: \n);
-scanf(" %d %c \n", &num &ch);
-ch >=65 & ch<=122  ? printf(" Cherecter \n")  :  ( num >=0 & num <= 9  ?  printf(" number \n")  :  printf( special charecter \n"));
+printf(" Enter anything: \n);        // $  3  a  B
+scanf(" %d %c \n", &num &ch);                
+ch >=65 & ch<=122  ? printf(" Cherecter \n")  :  ( num >=0 & num <= 9  ?  printf(" number \n")  :  printf( special charecter \n"));    // special digit lower upper 
+return 0;
+}
+
+
+// sizeof()
+
+#include<stdio.h>
+int main()
+{
+int i;
+char ch;
+float f;
+double d;
+printf(" %ld %ld %ld \n", sizeof(int), sizeof(i), sizeof(10));         // 4 4 4
+printf(" %ld %ld %ld \n", sizeof(char), sizeof(ch), sizeof('a'));      // 1 1 4 
+printf(" %ld %ld %ld \n", sizeof(float), sizeof(f), sizeof(1.2f));     // 4 4 4
+printf(" %ld %ld %ld \n", sizeof(double), sizeof(d), sizeof(2.3));     // 8 8 8
+return 0;
+}
+
+// comma operators
+
+#include<stdio.h>
+int main()
+{
+int i=10, j=20, k=30, l=40, r;            // valid
+
+int i=10, 20, 30, 40;                     // invalid ( generate error)
+
+int i=( 10, 20, 30, 40);                  // i=40   - valid
+
 return 0;
 }
