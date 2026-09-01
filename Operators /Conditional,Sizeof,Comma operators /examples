@@ -1,0 +1,24 @@
+// WAP to check char is uppercase or lowercase
+#include<stdio.h>
+int main()
+{
+  char ch;
+printf(" Enter the char: \n");
+scanf("%c", &ch);
+ch >=97  &&  ch <=122  ? printf(" lower case \n")  : printf(" uppercase \n");
+return 0;
+}
+
+
+// WAP TO print that entered char is charecter or digit or special charecter
+
+#include<stdio.h>
+int main()
+{
+int num;
+char ch;
+printf(" Enter anything: \n);
+scanf(" %d %c \n", &num &ch);
+ch >=65 & ch<=122  ? printf(" Cherecter \n")  :  ( num >=0 & num <= 9  ?  printf(" number \n")  :  printf( special charecter \n"));
+return 0;
+}
