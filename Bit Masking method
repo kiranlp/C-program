@@ -1,0 +1,65 @@
+function data passing
+    - when we supply morethan one data(argument) to function, data will supply from right to left.    <-----   
+
+   function data passing happens from left to right   ---->
+
+   printf() will always print from left to right.   ----->
+
+
+   BIT MASKING
+
+// WAP to swap first and last byte of int num, using bit masking method.
+
+ex:    i/p:  int num=0x12345678
+
+       o/p:  int num=0x78345612
+
+  #include<stdio.h>
+  int main()
+{
+  unsigned int num= 0x12345678, t1, t2, t3;
+  printf(" before: %x \n", num);
+
+  t1= num & 0x000000ff;
+  t1= t1 << 24;
+
+  t2= num & 0xff000000;
+  t2= t1 >> 24;
+
+  t3= num & 0x00ffff00;
+
+  num= t1 | t2 | t3;
+  return 0;
+}
+
+
+
+// WAP to convert little endian number into big endian format.
+
+ex:   i/p:  int num= 0x12345678
+
+      o/p:  int num= 0x78563412
+
+#include<stdio.h>
+int main()
+{
+unsigned int num= 0x12345678, t1, t2, t3, t4;
+printf(" befor: num=%x \n", num);
+
+t1= num & 0x000000ff;
+t1= t1 << 24;
+
+t2= num & 0xff000000;
+t2= t1 >> 24;
+
+t3= num & 0x0000ff00;
+t3= t3 << 8;
+
+t4= num & 0x00ff0000;
+t4= t4 >> 8;
+
+num= t1 | t2 | t3 | t4;
+printf(" after: num= %x \n", num);
+return 0;
+}
+
