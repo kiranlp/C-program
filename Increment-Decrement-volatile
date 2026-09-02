@@ -1,0 +1,191 @@
+# C Programming Notes: Increment/Decrement, `volatile`, and Code Optimization
+
+## 1. Increment and Decrement Operators (`++` / `--`)
+
+- These are **unary operators**.
+- The operand can only be of **variable type**.
+- The operand **cannot** be a `const` or an expression.
+- There are two ways to use increment/decrement:
+
+| Syntax | Meaning |
+|--------|---------|
+| `++op` | Pre-increment |
+| `op++` | Post-increment |
+| `--op` | Pre-decrement |
+| `op--` | Post-decrement |
+
+- **Increment operator** increases the data by 1.
+- **Decrement operator** decreases the data by 1.
+- **Pre-increment**: the data is incremented *first*, then assigned.
+- **Post-increment**: the data is assigned *first*, then incremented.
+
+### Example
+
+#include<stdio.h>
+int main()
+{
+    int i = 10, j = 0;
+    printf("i=%d j=%d \n", i, j);
+
+    j = i++;   // first j = 10, then i = 11
+    j = ++i;   // first i = 11, then j = 11
+
+    printf("i=%d j=%d \n", i, j);
+
+    printf("%d\n", i++); // prints 10, then i becomes 11? (depends on prior state)
+    printf("%d\n", i);
+    printf("%d\n", ++i);
+    printf("%d\n", i);
+
+    return 0;
+}
+
+
+### Invalid Usage (compile errors)
+
+
+100++;        // Error — operand can't be a constant
+(i + j)++;    // Error — operand can't be an expression
+A++;          // Error — if A is declared const
+
+
+### Efficiency Note (machine cycles)
+
+Incrementing by **1**:
+
+++i;        // 1 machine cycle — efficient
+i = i + 1;  // load, add, store — 3 operations — less efficient
+
+
+Incrementing by a value **other than 1** (e.g. 5):
+
+i = i + 5;                    // 1 operation — efficient
+++i; ++i; ++i; ++i; ++i;      // 5 operations — inefficient
+
+
+> Takeaway: use `++i` for increment-by-1, but use `i = i + n` for increment-by-n.
+
+
+
+## 2. The `volatile` Keyword
+
+### Why does `volatile` exist?
+
+Normally, if a program reads the same variable from memory repeatedly, the
+**CPU reads it from memory only the first time**, stores it in a CPU
+register, and reuses the register value on later reads (since registers
+are faster than memory). This is a compiler optimization.
+
+`volatile` tells the compiler **not** to do this optimization for a
+particular variable.
+
+### 1. What is `volatile`?
+
+`volatile` is a **keyword / type qualifier**.
+
+### 2. What happens when we mark a variable `volatile`?
+
+- It **forces the compiler to read the variable from memory every time**,
+  instead of reusing a cached register value.
+- It tells the compiler: *"don't apply any optimization to this
+  variable."*
+
+### Example
+
+
+#include<stdio.h>
+int main()
+{
+    volatile int i = 10;
+
+    printf("%d %d %d %d %d\n", i, i, i, i, i);
+    // 10 10 10 10 10
+
+    printf("%d %d %d %d %d\n", i++, i++, i++, i++, i++);
+    // 14 13 12 11 10   (args evaluated right-to-left in this compiler)
+
+    printf("%d %d %d %d %d\n", ++i, ++i, ++i, ++i, ++i);
+    // with volatile:    15 14 13 12 11
+    // without volatile: 15 15 15 15 15
+    return 0;
+}
+
+
+> This particular example (multiple `++i` in one `printf`) has no real
+> application in production programming** — it's undefined/unspecified
+> behavior. Compiler-to-compiler behavior may differ, so the result is
+> **unpredictable**. Avoid writing code like this in real programs.
+
+### `const` vs `volatile`
+
+
+const int i = 10;
+
+// We can READ the data, but we CANNOT modify it.
+// Trying to modify a const variable gives a compiler error.
+
+
+- `const` → read-only, compiler-enforced no modification.
+- `volatile` → always re-read from memory, no caching/optimization.
+- The two can also be combined (`const volatile`) for things like
+  memory-mapped hardware registers that are read-only from software but
+  can change externally.
+
+
+
+## 3. Code Optimization
+
+In code optimization, we need to take care of **2 things**:
+
+1. **Number of operations (machine cycles) should be less** → the
+   program executes faster.
+2. **Amount of memory usage should be less** → we save memory.
+
+So, an optimized program executes **faster** while using **less
+memory**.
+
+### Ways Code Optimization Happens
+
+1. **By the Compiler** (internally)
+2. **By the Programmer** (externally)
+
+- Compiler optimization behavior **differs from compiler to compiler**.
+- Some **smart compilers** perform internal optimizations, e.g. they
+  won't allocate memory for unused variables.
+
+### Example: Eliminating a Temporary Variable
+
+
+// Programmer writes:
+r = num % 10;
+sum = sum + r;
+
+// Smart compiler may internally optimize to:
+sum = sum + num % 10;
+
+
+### Example: Constant Folding
+
+
+num = 10 + 20;   // if operands are constants, compiler pre-computes:
+                  // num = 30 (computed at compile time, not runtime)
+
+
+### Dead Code Removal
+
+Code that can **never execute** is removed by the compiler.
+
+
+main()
+{
+    st1;
+    st2;
+    return 0;   // stops main() execution here
+
+    st3;        // never executes — dead code
+    st4;        // (anything after return is unreachable)
+}
+
+
+
+
