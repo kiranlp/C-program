@@ -6,6 +6,7 @@ function data passing
    printf() will always print from left to right.   ----->
 
 
+
    BIT MASKING
 
 // WAP to swap first and last byte of int num, using bit masking method.
