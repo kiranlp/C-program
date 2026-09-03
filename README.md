@@ -85,7 +85,7 @@ Build a strong C programming foundation and develop the ability to write, unders
 
 
 
-⭐ Practice consistently. Understand the logic. Write the code yourself.
+⭐ Practicing consistently. Understanding the logic.
 
  Author
-*Kiran* —  ECE Graduate (Embedded Systems & VLSI), BIET, 
+Kiran —  ECE Graduate (Embedded Systems & VLSI), BIET, 
