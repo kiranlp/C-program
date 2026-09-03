@@ -1,0 +1,244 @@
+# C Programming — Control Statements 
+
+
+
+
+ 2. if Statement
+
+Q: What is if?
+if is one of the non-iterative, conditional control statements.
+
+##Syntax
+
+
+if (exp)
+{
+    st1;
+    st2;   // group dependent on the if condition
+    st3;
+}
+
+
+
+if (exp)
+{
+    st1;   // only the first statement (st1) is dependent on if
+}
+st2;
+st3;       // independent statements
+
+
+
+if (exp);  // "dummy if" — if statement ends here (note the semicolon)
+{
+    st1;
+    st2;   // all independent from the if
+    st3;
+}
+
+
+## Notes on expression evaluation
+- An expression can evaluate to either '0' or a 'non-zero' value.
+- 0 → represents condition false.
+- Non-zero → represents condition true.
+
+
+
+## 3. Is if / else mandatory?
+
+| Part | Mandatory? |
+| if | Yes |
+| else | No |
+
+
+## 4. Practice Program — Scan and Print a Character
+
+WAP to scan one char from user, and print the char and its ASCII value.
+
+
+#include <stdio.h>
+
+int main()
+{
+    char ch;
+    printf("Enter char: \n");
+    scanf("%c", &ch);
+    printf("char: %c \n", ch);
+    printf("ascii: %d \n", ch);
+    return 0;
+}
+
+
+Sample run:
+
+Enter char: a
+char: a
+ascii: 97
+
+
+## ASCII range check example
+
+
+if (ch >= 'a' && ch <= 'z')
+    printf("char: %c ascii: %d \n", ch, ch);
+
+
+
+## 5. Practice Program — Student Result (Grading with 'else if')
+
+WAP to scan one student's total marks and display the result of the student.
+
+| Marks Range | Result |
+| 0 – 34      | Fail   |
+| 35 – 59     | C      |
+| 60 – 74     | B      |
+| 75 – 100    | A      |
+
+
+int m;
+printf("Enter the marks ");
+scanf("%d \n", &m);
+
+if (m >= 75 && m <= 100)              // (m < 35)
+    printf("A \n");
+else if (m >= 60 && m <= 74)          // (m < 60)
+    printf("B \n");
+else if (m >= 35 && m <= 59)          // (m < 75)
+    printf("C \n");
+else
+    printf("fail \n");
+
+
+
+
+## 6. Nested 'if'
+
+Nested if = an 'if' statement within another 'if' statement.
+
+## Syntax (style 1 — if/else with nesting)
+
+
+if (exp1)
+{
+    if (exp2)
+        st1;
+    else
+        st2;
+}
+else
+{
+    if (exp3)
+        st3;
+    else
+        st4;
+}
+
+
+## Syntax (style 2 — deep nesting)
+
+
+if (exp1)
+{
+    if (exp2)
+    {
+        if (exp3)
+        {
+            if (exp4)
+            {
+                st1;
+            }
+        }
+        st2;
+    }
+}
+
+
+
+
+## 7. 'goto' Statement
+
+'goto' is one of the non-iterative, unconditional control statements.
+
+- In C, we use 'local goto' (jump is within the same function only).
+- 'goto' can be used in two different ways:
+  1.  Forward jump
+  2.  Backward jump
+
+## Two things to take care of when using 'goto':
+1.  Calling the label:  goto label_name;
+2.  Setting the label:  label_name:
+
+>   'label_name' should 'not' be any keyword or constant.
+
+## Example — Forward Jump
+
+
+#include <stdio.h>
+
+int main()
+{
+    printf("Hello... \n");
+    goto l;                    // calling the label
+    printf("Hai1... \n");      // skipped
+    printf("Hai2... \n");      // skipped
+l:                              // setting the label
+    printf("bye... \n");
+    return 0;
+}
+
+
+## Example — Backward Jump
+
+
+#include <stdio.h>
+
+int main()
+{
+l:                              // setting the label
+    printf("Hello... \n");
+    printf("Hai1... \n");      // repeats
+    printf("Hai2... \n");
+    goto l;                    // calling the label
+    printf("bye... \n");
+    return 0;
+}
+
+
+Useful shortcut: 'Ctrl + C' → to stop execution (e.g. of an infinite loop in the terminal).
+
+
+
+## 8. Practice Program — Multiplication Table using `goto`
+
+ WAP  to print the multiplication table for a given number using 'goto'.
+
+Example:
+
+Input:  num = 5
+Output: 5 * 1  = 5
+        5 * 2  = 10
+        ...
+        5 * 10 = 50
+
+
+
+#include <stdio.h>
+
+int main()
+{
+    int num, i;
+    printf("enter int num: \n");
+    scanf("%d \n", &num);
+
+    i = 1;
+l:  printf("%d * %d = %d \n", num, i, num * i);
+    i++;
+    if (i <= 10)
+        goto l;
+
+    return 0;
+}
+
+
+
+
