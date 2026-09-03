@@ -1,25 +1,91 @@
-# C-program
+⚡ C Programming for Embedded Systems
 
-A collection of Embedded C concepts, examples, and notes — covering core language fundamentals used in embedded systems development.
+Building strong C fundamentals for Embedded Systems — Learn → Understand → Practice → Apply»
 
-## Contents
 
-| Folder/File | Description |
-|---|---|
-| `Data types/` | Examples demonstrating C data types |
-| `Operators/` | Examples covering C operators |
-| `Bit Masking method` | Notes and code on bit masking techniques |
-| `Increment-Decrement-volatile` | Examples covering increment/decrement operators and the `volatile` keyword |
-| `compilations and Errors` | Documentation of compilation steps and common error types |
 
-## About
+📌 Core C Concepts
 
-This repository is a personal reference/practice collection for Embedded C — built while learning and reinforcing core concepts commonly used in microcontroller firmware development (e.g., STM32, embedded systems programming).
+  | Topic| What I Learn and learning
+  | 🧩 C Fundamentals| Syntax, variables, data types, I/O
+  | ➕ Operators| Arithmetic, logical, relational & bitwise
+  | 🔀 Control Flow| "if", "switch", loops & jump statements
+  | ⚙️ Functions| Modular programming, parameters & return values
+  | 📦 Arrays & Strings| Data storage, traversal & string handling
+  | 🎯 Pointers| Addresses, dereferencing & pointer operations
+  | 🏗️ Structures & Unions| Organizing and handling complex data
+  | 🧠 Memory & Storage| Scope, lifetime, storage classes & memory
+  | 🔢 Bit Manipulation| Set, clear, toggle & check individual bits
+  | 🛠️ Preprocessor| Macros, header files & conditional compilation
+  | 🔒 const & volatile| Data protection and hardware-related variables
+  | 🔗 Function Pointers| Callbacks and function-based operations
 
-## Tech
 
-- **Language:** Embedded C
-- **Environment:** GCC / Linux 
 
-## Author
-**Kiran** — Final-year ECE student (Embedded Systems & VLSI), Bapuji Institute of Engineering & Technology, Bangalore
+🔥 Embedded-Focused C
+
+The C concepts I focus on most for embedded programming:
+
+Pointers
+   ↓
+Memory
+   ↓
+Bit Manipulation
+   ↓
+Structures & Unions
+   ↓
+const / volatile
+   ↓
+Function Pointers
+   ↓
+Embedded C
+
+
+
+🧠 Problem Solving
+
+«Logic first — memorization last.»
+
+- 🔢 Number & digit problems
+- 🔁 Loops & pattern problems
+- 📊 Arrays & strings
+- 🎯 Functions
+- 📍 Pointers
+- 🧱 Structures & unions
+- ⚡ Bit manipulation
+- 🧩 Logic-building programs
+
+
+
+📂 Repository
+
+📁 C-Programming
+│
+├── 📂 Fundamentals
+├── 📂 Operators
+├── 📂 Control-Flow
+├── 📂 Functions
+├── 📂 Arrays-Strings
+├── 📂 Pointers
+├── 📂 Structures-Unions
+├── 📂 Memory-Storage
+├── 📂 Bit-Manipulation
+├── 📂 Preprocessor
+├── 📂 Const-Volatile
+├── 📂 Function-Pointers
+└── 📂 Practice-Programs
+
+
+
+🎯 Objective
+
+Build a strong C programming foundation and develop the ability to write, understand, debug, and apply C code in Embedded Systems.
+
+🚀 Learn C → Build Logic → Master Fundamentals → Move to Embedded C
+
+
+
+⭐ Practice consistently. Understand the logic. Write the code yourself.
+
+ Author
+*Kiran* —  ECE Graduate (Embedded Systems & VLSI), BIET, 
