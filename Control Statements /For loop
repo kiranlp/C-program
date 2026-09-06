@@ -1,0 +1,210 @@
+ C for Loop — Notes (Embedded Systems)
+
+ 1. What is a for loop?
+for is used to perform a task repeatedly in a program.
+
+ Syntax
+
+for (initialization; condition check; control)
+{
+    st1;
+    st2;
+    st3;
+    st4;   // body of loop
+}
+
+
+Execution order:
+1. Initialization → runs once
+2. Condition check → evaluated before every iteration
+3. Body of loop → runs if condition is true
+4. Control (increment/decrement) → runs after the body, then goes back to step 2
+
+ Example
+
+#include <stdio.h>
+int main()
+{
+    int i;
+    for (i = 0; i < 5; i++)   // ++i / i = i+1 / i += 1 all work
+        printf("Hello.. \n");
+    return 0;
+}
+
+Output:
+
+Hello..
+Hello..
+Hello..
+Hello..
+Hello..
+
+ Loop with statement before/after
+
+int i = -5;
+printf("before loop.. %d \n", i);   // -5
+for (i = 0; i <= 2; i++)
+    printf("in loop.. %d \n", i);   // 1 2 3   (prints after i++ per statement placement)
+printf("after loop.. %d \n", i);    // 3
+
+
+
+
+ 2. Dummy Loop (loop without a body)
+
+A for loop followed immediately by a ; has  no body — the semicolon itself is the (empty) body, so the loop just runs and does nothing each iteration. Any statement written on the next line executes **only once, after** the loop ends (it is *not* part of the loop).
+
+
+{
+    int i;
+    for (i = 0; i <= 2; i++);      // <-- loop ends here (dummy loop)
+    printf("%d \n", i);            // NOT in loop, runs once after loop finishes
+}
+
+
+ Dummy loop vs Normal loop trace
+
+Dummy for loop (loop without body):
+| i | condition | result |
+
+| 0 | 0<=2 | T |
+| 1 | 1<=2 | T |
+| 2 | 2<=2 | T |
+| 3 | 3<=2 | F → exits, i = 3 |
+
+Nothing is printed during the loop; only i=3 is printed once, after the loop.
+
+**Normal for loop (loop with body):**
+| i | condition | Print |
+|---|-----------|-------|
+| 0 | 0<=2 | 0 |
+| 1 | 1<=2 | 1 |
+| 2 | 2<=2 | 2 |
+| 3 | 3<=2 (F) | exits |
+
+
+int i;
+for (i = 0; i <= 2; i++)
+    printf("%d \n", i);   // 0, 1, 2
+
+
+
+
+ 3. Missing parts of a for loop
+
+ a) No initialization
+
+int i = 0;
+for ( ; i <= 2; i++)
+    printf("%d \n", i);   // 0, 1, 2
+
+
+ b) No condition
+If the condition is left blank, it is true by default → infinite loop.
+
+for (i = 0; ; i++)
+    printf("%d \n", i);   // 0, 1, 2, 3, ... (infinite)
+
+
+ c) No control (increment/decrement)
+Since i never changes, the condition stays true forever.
+
+for (i = 0; i <= 2; )
+    printf("%d \n", i);   // 0, 0, 0, ... (infinite)
+
+
+ d) All three missing — infinite loop
+
+for (;;)
+    printf("%d \n", i);   // default condition = true → prints garbage/whatever i holds, infinite (no body → does nothing, forever)
+
+>  for(;;); alone (with a trailing semicolon and nothing else) is a genuine infinite dummy loop.
+
+e) Control inside the condition expression
+
+for (i = 0; i < 3; )
+    printf("%d \n", ++i);   // ++i in the print statement acts as control
+// i++  → prints 0,1,2,3
+// ++i  → prints 1,2,3
+
+
+
+
+ 4. Signed vs Unsigned int in loops
+
+unsigned int can **never** be negative — it wraps around to a very large positive value when decremented below 0.
+
+
+unsigned int i;
+for (i = 2; i >= 0; i--)
+    printf("%u \n", i);
+return 0;
+
+
+**Trace — unsigned int i:
+| i | i >= 0 | printed |
+|---|--------|---------|
+| 2 | T | 2 |
+| 1 | T | 1 |
+| 0 | T | 0 |
+| -1 → wraps to 4294967295 (≈4.9×10⁹ on this note, shown as 4G) | F is never reached the normal way | 4294967295 |
+| 4294967294 | T | 4294967294 |
+| ... | ... | continues counting down — infinite loop |
+
+Trace — int i (signed):**
+| i | i >= 0 | printed |
+
+| 2 | T | 2 |
+| 1 | T | 1 |
+| 0 | T | 0 |
+| -1 | F | loop exits normally |
+
+Key takeaway: Using unsigned int as a down-counting loop variable that is compared with >= 0 causes an infinite loop, because the condition can never become false (unsigned values can't go negative — they wrap around instead). Always use a signed `int` for down-counters that must reach negative/zero exit conditions.
+
+
+
+ 5. Loops with two control variables
+
+
+int i, j;
+for (i = 0, j = 4; i < j; i++, j--)
+    printf("%d %d \n", i, j);
+
+
+**Trace (i=0, j=4):
+| i | j | i<j | printed |
+
+| 0 | 4 | T | 0 4 |
+| 1 | 3 | T | 1 3 |
+| 2 | 2 | F | — (exits) |
+
+### Dummy version (with trailing ;)
+
+for (i = 0, j = 4; i < j; i++, j--);      // dummy loop — no body
+printf("%d %d \n", i, j);                 // runs once after loop: prints 2 2
+
+
+ Condition that is never true from the start
+
+for (i = 0, j = 4; i < j, i > j; i++, j--)
+    printf("%d %d \n", i, j);
+// no output — the comma operator evaluates i<j then i>j;
+// the loop's actual condition value is the LAST expression (i>j),
+// which is false at i=0, j=4, so the loop body never runs.
+
+// If it were the dummy version instead:
+for (i = 0, j = 4; i < j, i > j; i++, j--);
+printf("%d %d \n", i, j);   // would print 0 4 (i, j unchanged since loop never iterated)
+
+
+
+
+ Quick Reference Table
+
+| Missing part | Effect |
+
+| Initialization | Must be set before the loop separately |
+| Condition | Defaults to true → infinite loop |
+| Control | Loop variable never updates → infinite loop |
+| Body (; right after header) | "Dummy loop" — loop runs but does nothing; next statement runs once, after loop ends |
+| All three (for(;;)) | Infinite loop by default |
