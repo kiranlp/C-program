@@ -1,0 +1,49 @@
+ Break Statement in C
+
+- break is one of the non-iterative, unconditional control statements.
+- It is useful only inside a loop or a switch.
+- When break executes inside a program, whichever loop or switch it belongs to, that loop/switch's execution stops immediately.
+
+ Syntax
+
+break;
+
+
+ Example 1 — break inside a for loop
+
+
+#include <stdio.h>
+int main()
+{
+    int i;
+    for (i = 0; i <= 4; i++)
+    {
+        if (i == 2)
+            break;
+        printf("%d\n", i);
+    }
+    return 0;
+}
+
+
+Output:
+
+0
+1
+
+
+ Example 2 — break must be inside a loop/switch
+
+
+int main()
+{
+    printf("Hello..\n");
+L1: printf("Test1..\n");
+    printf("Test2..\n");
+    break;      // Error: break should be within loop/switch
+    goto L1;
+    printf("Bye..\n");
+}
+
+
+break used outside a loop or switch (e.g., directly in main's body, not inside any loop/switch) causes a compile-time error, since it has nothing to break out of.
