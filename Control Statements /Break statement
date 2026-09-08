@@ -47,3 +47,195 @@ L1: printf("Test1..\n");
 
 
 break used outside a loop or switch (e.g., directly in main's body, not inside any loop/switch) causes a compile-time error, since it has nothing to break out of.
+
+
+ Bit Manipulation in C
+
+A set of small C programs exploring bitwise operators (<<, >>, &, ^) through binary printing, bit reversal, byte swapping, and bit rotation.
+
+ Files
+
+| File | Concept |
+
+| print_binary.c | Print the 32-bit binary of an int, in both normal (MSB→LSB) and reverse (LSB→MSB) order |
+| reverse_bits.c | Reverse the entire 32-bit pattern of a number by swapping symmetric bit pairs |
+| swap_last_byte.c | Swap specific bit ranges (first byte with a shifted upper range) using XOR toggling |
+| rotate_bits.c | Right-rotate the bits of a number by `n` positions |
+
+ Core techniques used
+
+- Extract a bit: (num >> pos) & 1
+- Toggle a bit: num = num ^ (1 << pos)
+- Swap two bits (i, j) if they differ:
+  
+  int m = (num >> i) & 1;
+  int n = (num >> j) & 1;
+  if (m != n) {
+      num ^= (1 << i);
+      num ^= (1 << j);
+  }
+  
+- Right rotate by n bits (32-bit int):
+  
+  num = (num >> n) | (num << (32 - n));
+  
+
+ Compile & run
+
+bash
+gcc print_binary.c -o print_binary && ./print_binary
+gcc reverse_bits.c -o reverse_bits && ./reverse_bits
+gcc swap_last_byte.c -o swap_last_byte && ./swap_last_byte
+gcc rotate_bits.c -o rotate_bits && ./rotate_bits
+
+EXAMPLES
+
+
+----> WAP to print binary of an int using for loop 
+ 
+#include <stdio.h>
+
+int main()
+{
+    int num, pos;
+
+    printf("Enter int num: \n");
+    scanf("%d", &num);
+
+    // Print binary, MSB to LSB (normal order)
+    for (pos = 31; pos >= 0; pos--)
+        printf("%d", (num >> pos) & 1);
+    printf("\n");
+
+    // Print binary, LSB to MSB (reverse order)
+    for (pos = 0; pos <= 31; pos++)
+        printf("%d", (num >> pos) & 1);
+    printf("\n");
+
+    return 0;
+}
+
+
+  Example:
+  num = 15
+  normal : 00000000000000000000000000001111
+  reverse: 11110000000000000000000000000000
+
+
+
+ ------>    WAP to print both binary and reverse-order binary of an int,
+              then physically reverse the 32-bit pattern of the number.
+
+#include <stdio.h>
+
+int main()
+{
+    int num, pos, i, j, m, n;
+
+    printf("Enter int num: \n");
+    scanf("%d", &num);
+
+    printf("...before...\n");
+    for (pos = 31; pos >= 0; pos--)
+        printf("%d", (num >> pos) & 1);
+    printf("\n");
+
+    // Reverse all 32 bits: swap bit i with bit j, moving inward
+    for (i = 0, j = 31; i < j; i++, j--) {
+        m = (num >> i) & 1;   // bit at position i (from LSB)
+        n = (num >> j) & 1;   // bit at position j (from MSB side)
+
+        if (m != n) {         // only need to act when bits differ
+            num = num ^ (1 << i);   // toggle bit i
+            num = num ^ (1 << j);   // toggle bit j
+        }
+        // repeat for the next pair of bits moving toward the middle
+    }
+
+    printf("...after...\n");
+    for (pos = 31; pos >= 0; pos--)
+        printf("%d", (num >> pos) & 1);
+    printf("\n");
+
+    return 0;
+}
+
+
+-----> WAP to swap bits of a number using a for loop.
+       Pairs bit i (0..7) with bit j (24..17) and swaps them
+       whenever they differ, byte-separated for readability.
+ 
+#include <stdio.h>
+
+int main()
+{
+    int num, pos, i, j, m, n;
+
+    printf("Enter int num: \n");
+    scanf("%d", &num);
+
+    printf("...before...\n");
+    for (pos = 31; pos >= 0; pos--) {
+        printf("%d", (num >> pos) & 1);
+        if (pos % 8 == 0)
+            printf(" ");
+    }
+    printf("\n");
+
+    for (i = 0, j = 24; i <= 7; i++, j--) {
+        m = (num >> i) & 1;
+        n = (num >> j) & 1;
+
+        if (m != n) {                // bits differ, so swap them
+            num = num ^ (1 << i);    // toggle bit i
+            num = num ^ (1 << j);    // toggle bit j
+        }
+        // repeat for the next pair of bits
+    }
+
+    printf("...after...\n");
+    for (pos = 31; pos >= 0; pos--) {
+        printf("%d", (num >> pos) & 1);
+        if (pos % 8 == 0)
+            printf(" ");
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+  Rotation of bits
+  Right-rotate a 32-bit int by 'no_of_rot' positions.
+ 
+  Example: num = 15 (00000000...00001111), rotated right by 3:
+    num >> 3           -> 00000000...00000001  (shifted-in zeros on the left)
+    num << (32-3)       -> 11100000...00000000  (wrapped-around bits)
+    OR the two together -> 11100000...00000001
+ 
+#include <stdio.h>
+
+int main()
+{
+    int num, pos, no_of_rot;
+
+    printf("Enter the num\n");
+    scanf("%d", &num);
+    printf("Enter no of rotations: \n");
+    scanf("%d", &no_of_rot);
+
+    printf("...before...\n");
+    for (pos = 31; pos >= 0; pos--)
+        printf("%d", (num >> pos) & 1);
+    printf("\n");
+
+    // Right rotate: bits shifted off the right wrap around to the left
+    num = (num >> no_of_rot) | (num << (32 - no_of_rot));
+
+    printf("...after...\n");
+    for (pos = 31; pos >= 0; pos--)
+        printf("%d", (num >> pos) & 1);
+    printf("\n");
+
+    return 0;
+}
