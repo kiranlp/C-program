@@ -44,7 +44,7 @@ Embedded C
 
 🧠 Problem Solving
 
-«Logic first — memorization last.»
+  Logic first — memorization last.»
 
 - 🔢 Number & digit problems
 - 🔁 Loops & pattern problems
@@ -60,20 +60,21 @@ Embedded C
 📂 Repository
 
 📁 C-Programming
-│
-├── 📂 Fundamentals
-├── 📂 Operators
-├── 📂 Control-Flow
-├── 📂 Functions
-├── 📂 Arrays-Strings
-├── 📂 Pointers
-├── 📂 Structures-Unions
-├── 📂 Memory-Storage
-├── 📂 Bit-Manipulation
-├── 📂 Preprocessor
-├── 📂 Const-Volatile
-├── 📂 Function-Pointers
-└── 📂 Practice-Programs
+
+ 📂 Fundamentals
+ 📂 Datatypes
+ 📂 Operators
+ 📂 Control-Flow
+ 📂 Functions
+ 📂 Arrays-Strings
+ 📂 Pointers
+ 📂 Structures-Unions
+ 📂 Memory-Storage
+ 📂 Bit-Manipulation
+ 📂 Preprocessor
+ 📂 Const-Volatile
+ 📂 Function-Pointers
+ 📂 Practice-Programs
 
 
 
