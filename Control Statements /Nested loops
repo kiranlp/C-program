@@ -1,0 +1,189 @@
+ Nested Loops in C — Pattern Programs
+
+Note: In nested loops, the -outer loop represents the number of 'rows', 
+  and the -inner loop represents the number of 'columns'.
+
+
+EXAMPLES
+
+ 1. Number / Character / Star Triangle Patterns
+
+Prints one of three variants depending on which printf line is uncommented:
+
+
+1                a                *
+1 2              a b              * *
+1 2 3            a b c            * * *
+1 2 3 4          a b c d          * * * *
+
+
+#include<stdio.h>
+int main()
+{
+    int i, j;
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j <= i; j++)
+        {
+            // printf("%c", 'a' + j);   // a b c d e
+            // printf("%d", 1 + j);     // 1 2 3 4 5
+            // printf("* ");            // * * * *
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+
+How it builds (rows vs columns):
+
+| Row | i value | Columns printed |
+
+| 1st | i = 0   | 1 time  |
+| 2nd | i = 1   | 2 times |
+| 3rd | i = 2   | 3 times |
+| 4th | i = 3   | 4 times |
+| 5th | i = 4   | 5 times |
+
+
+
+ 2. Alternating Numbers / Letters Based on Row Parity
+
+Prints a letter on even rows and a number on odd rows:
+
+
+1
+a b
+1 2 3
+a b c d
+1 2 3 4 5
+
+
+
+#include<stdio.h>
+int main()
+{
+    int i, j;
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j <= i; j++)
+        {
+            if (i % 2)
+                printf("%c", 'a' + i);
+            else
+                printf("%d", 1 + j);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+
+
+
+ 3. Continuous Character Sequence with Case Toggling
+
+Prints letters continuously across rows, toggling case using bit manipulation ('ch ^ 32' toggles the 5th bit — converts uppercase ↔ lowercase):
+
+
+a B c D e
+F g H i
+J k L
+m N
+o
+
+
+#include<stdio.h>
+int main()
+{
+    int i, j;
+    char ch;
+    ch = 'a';
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j < 5 - i; j++, ch++, ch = ch ^ 32)  // toggles case each character
+        {
+            printf("%c", ch);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+
+
+ 4. Star Pyramid (Half Pyramid, Left-Aligned)
+
+*
+* *
+* * *
+* * * *
+* * * * *
+
+
+
+#include<stdio.h>
+int main()
+{
+    int i, j;
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j <= i; j++)
+            printf("* ");
+        printf("\n");
+    }
+    return 0;
+}
+
+
+
+ 5. Star Pyramid (Centered / True Triangle) — Using 3 Loops
+
+Uses a triple nested loop: outer loop for rows, first inner loop for leading spaces, second inner loop for stars.
+
+
+        *
+      * *
+    * * *
+  * * * *
+* * * * *
+
+
+
+#include<stdio.h>
+int main()
+{
+    int i, j, k;
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j < 4 - i; j++)
+            printf(" ");
+        for (k = 0; k <= i; k++)
+            printf("* ");
+        printf("\n");
+    }
+    return 0;
+}
+
+
+Space/star count per row:
+
+| Row (i) | Spaces | Stars |
+
+| i = 0   | 4      | 1     |
+| i = 1   | 3      | 2     |
+| i = 2   | 2      | 3     |
+| i = 3   | 1      | 4     |
+| i = 4   | 0      | 5     |
+
+> Tip: If a space is printed after each '*' instead of before, the shape becomes a pyramid/triangle ('△') rather than a right-aligned triangle.
+
+
+ Key Takeaways
+
+- Outer loop (i) → controls rows
+- Inner loop (j) → controls columns (usually  j <= i for increasing patterns, j < n - i for decreasing/space patterns)
+- Character patterns often use 'a' + j or ch++  with ASCII arithmetic
+- Case toggling trick: ch = ch ^ 32  flips between upper and lower case
+- Centered/true triangles need a third loop (or two inner loops) — one for leading spaces, one for the actual characters.
+
