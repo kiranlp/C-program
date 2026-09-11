@@ -1,0 +1,317 @@
+ C Programming Notes — Loops, Return, and Switch-Case
+
+ 1. Pattern Program (Right Triangle of *)
+
+
+int main()
+{
+    int i, j, k;
+    printf("Enter number of rows: ");
+    scanf("%d", &r);
+
+    for (i = 0; i < r; i++)
+    {
+        for (j = 0; j < r - 1 - i; j++)
+            printf(" ");
+        for (k = 0; k <= i; k++)
+            printf("* ");
+        printf("\n");
+    }
+    return 0;
+}
+
+
+
+ 2. While Loop
+
+Syntax:
+
+while (exp)
+{
+    st1;
+    st2;
+    ...
+}
+
+- The arrow flow: while(exp) → condition check → body executes if true.
+- while() with no condition → Error — a 'while' can't be empty.
+
+Example:
+
+int i = 0;
+while (i < 5)
+{
+    printf("Hello\n");
+    i++;
+}
+return 0;
+
+Output:
+
+Hello
+Hello
+Hello
+Hello
+Hello
+
+
+### Dummy While Loop (loop ends at the ;)
+
+
+int i = 0;
+while (i++ <= 2);      // dummy loop — loop ends here (note the semicolon)
+printf("%d\n", i);     // not part of the loop
+return 0;
+
+
+Trace — dummy while loop (i++, post-increment used in check):
+| i (start) | check i <= 2 | i (after) |
+
+| 0         | 0<=2 ✓      | 1 |
+| 1         | 1<=2 ✓      | 2 |
+| 2         | 2<=2 ✓      | 3 |
+| 3         | 3<=2 ✗      | → exits, final i = 4|
+
+
+Trace — normal while loop (++i, pre-increment, body runs):
+| i (start) | check i <= 2 | body runs | i (after) |
+
+| 0        | 0<=2 ✓       | prints 1 | 1 |
+| 1        | 1<=2 ✓       | prints 2 | 2 |
+| 2        | 2<=2 ✓       | prints 3 | 3 |
+| 3        | 3<=2 ✗       | exits | 4 |
+
+Key distinction:
+- Dummy while loop → condition itself does the work (via i++), body is empty (just ;).
+- Normal while loop → condition just checks; the body does the work.
+
+
+More Examples
+
+{
+    int i = 0;
+    while (i);      // Error — while cannot be empty
+    printf("%d\n", i);
+}
+
+
+
+{
+    int i, j;
+    i = 0, j = 4;
+    while (i++ <= j--)
+        printf("%d %d\n", i, j);
+    return 0;
+}
+
+Trace (i=0, j=4):
+| Check | i printed | j printed |
+
+| 0<=4    |     1   | 3 |
+| 1<=3    |    2    | 2 |
+| 2<=2    |    3    | 1 |
+| 3<=1 ✗ | —       | — |
+
+Output:
+
+1 3
+2 2
+3 1
+
+
+
+
+ 3. for Loop vs while Loop
+
+Difference between for loop and while loop:
+
+| For Loop -
+| At a time of writing the program, if we found: initialization, condition, increment/decrement → fixed 
+| We need to select 'for' loop.
+| it can be empty. ()
+
+
+| While Loop -
+| At a time of writing the program, if we found: initialization, condition, increment/decrement → not fixed 
+| May change, so we need to select 'while' loop.
+| it cannot be empty () loop
+
+
+Example:
+
+for (i = 0; i = 2, i <= 4; i++)     // fixed iterations
+while (i = 0; i = 2, i <= 4, i++)   // syntax used when it's not fixed
+    printf("%d\n", i);
+
+
+
+
+ 4. 'return' Statement
+
+- return is applicable within a function only.
+- When return executes in a program, in which function it executes, the control flow of that function will stop.
+- return can be used in two different ways:
+  1. Control return: return;
+  2. Value return: return 0; or return 1, 2, ...
+
+Syntax:
+
+return;
+
+Return is one of the non-iterative conditional CS (control statements).
+
+Example:
+
+void main()
+{
+    printf("Hello ");
+    printf("World.");
+    return 0;
+    printf("Bye 1.");   // unreachable — never executes
+}
+
+Output: Hello World.
+
+
+
+ 5. Switch-Case
+
+- switch case is one of the non-iterative conditional control statements.
+- It is used for menu-based tasks.
+
+Syntax:
+
+switch (exp)
+{
+    case label1: st1;
+                 break;
+    case label2: st2;
+                 break;
+    case label3: st3;
+                 break;
+    default: st4;
+}
+
+
+Rules:
+- 'exp' result must be of int type.
+- Case label must be an int family constant.
+- 'break' and 'default' are - not mandatory in switch.
+- switch() cannot be empty — error.
+- If 'break' is not used, all case bodies below the matching case execute (fall-through) until a break is hit.
+- 'default' can be placed anywhere — it doesn't have to be last. It will execute if no case matches.
+
+Example:
+
+#include <stdio.h>
+int main()
+{
+    int n;
+    printf("Enter n value: \n");
+    scanf("%d\n", &n);
+
+    switch (n)
+    {
+        case 1: printf("one\n");
+                break;
+        case 2: printf("two\n");
+                break;
+        case 3: printf("three\n");
+                break;
+        default: printf("not one two three\n");
+    }
+    return 0;
+}
+
+
+ Switch Trace Examples
+
+switch (1 + 0)   // printf("one");   // Valid
+
+case 'a': printf("one"); break;   // char 'a' = 97 → valid, works like int
+case 9.7: printf("three"); break;   // Error — case label must be int, not float
+
+
+
+switch (n)
+{
+    case 1+0: printf("one");
+    break;
+    case 'p': printf("two");
+    break;
+    case 3: printf("three");
+    break;
+}
+
+Ans: if n = 4 → % p = not one two three
+
+- If 'break' is not used, control falls through and executes all cases below the matching one, until a 'break' is found or the switch ends.
+- If we write duplicate case labels, it gives an error — no repetition of case label allowed.
+- 'default' can be written anywhere inside switch, but will execute only if none of the cases match.
+
+
+ Example: Vowel Checker
+
+// WAP to scan one char from user and print char is vowel or not.
+#include <stdio.h>
+int main()
+{
+    char ch;
+    printf("Enter char: \n");
+    scanf("%c", &ch);
+
+    switch (ch)
+    {
+        case 'a':
+        case 'e':
+        case 'i':
+        case 'o':
+        case 'u':
+            printf("lower case vowel\n");
+            break;
+
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+            printf("upper case vowel\n");
+            break;
+
+        default: printf("not vowel\n");
+    }
+}
+
+
+ Example: Basic Calculator Using Switch-Case
+
+// WAP program for basic Calculatore functions
+
+#include <stdio.h>
+int main()
+{
+    int n1, n2;
+    printf("Enter n1 & n2 value: \n");
+    scanf("%d %d\n", &n1, &n2);
+
+    char op;
+    printf("press + for add\n"
+           "press - for sub\n"
+           "press * for mul\n"
+           "press / for div\n");
+    scanf(" %c", &op);   // space before %c to skip whitespace/newline
+
+    switch (op)
+    {
+        case '+': printf("add: %d\n", n1 + n2);
+                  break;
+        case '-': printf("sub: %d\n", n1 - n2);
+                  break;
+        case '*': printf("mul: %d\n", n1 * n2);
+                  break;
+        case '/': printf("div: %d\n", n1 / n2);
+                  break;
+        default:  printf("invalid option\n");
+    }
+    return 0;
+}
