@@ -1,9 +1,0 @@
-                      Secondary Data types
-                                
-                               
-    Derived data types                        User defined Data types
-
-       Pointers                                       Structure
-        Array                                         typedef
-                                                      union
-                                                      Enum

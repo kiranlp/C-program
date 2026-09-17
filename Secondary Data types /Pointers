@@ -1,0 +1,98 @@
+
+Pointers (Secondary / Derived Data Types)
+
+ What is a Pointer?
+A pointer is one of the secondary (derived) data types. It is used to store the address of any other variable. Using a pointer, we can access data indirectly.
+
+Syntax:
+
+datatype *var_name;
+
+
+Examples:
+
+int *p;   // p is an integer pointer -> p is a variable of type "pointer to int"
+char *q;  // q is a character pointer -> q is a variable of type "pointer to char"
+
+
+
+ Wild Pointer
+
+int i, j;
+int *p;   // wild pointer
+
+When a pointer is pointing to an unknown/garbage location (address), it is called a wild pointer.
+
+
+
+ Direct vs Indirect Access
+
+int main() {
+    int i, j;
+    int *p;
+
+    i = 10, j = 20;
+    p = &i;
+
+    // printf("&i: %u\n", &i);
+    // printf("p: %u\n", p);
+
+    printf("dir: %d\n", i);     // direct   -> gives value
+    printf("indir: %d\n", *p);  // indirect -> gives value
+
+    return 0;
+}
+
+
+Format specifiers:
+- %u → gives the decimal value (also gives a warning when used with a pointer)
+- %p → gives the hexadecimal value (address)
+
+
+
+ Modifying a Variable: Directly vs Indirectly
+
+int main() {
+    int i;
+    int *p;
+
+    i = 100;
+    p = &i;
+    printf("i=%d  *p=%d\n", i, *p);   // i=100  *p=100
+
+    i = 150;                          // modify directly
+    printf("i=%d  *p=%d\n", i, *p);   // i=150  *p=150
+
+    *p = 200;                         // modify indirectly (through pointer)
+    printf("i=%d  *p=%d\n", i, *p);   // i=200  *p=200
+
+    return 0;
+}
+
+
+
+
+ sizeof() a Pointer
+
+int main() {
+    int i;
+    char ch;
+    float f;
+    double d;
+
+    int    *ip = &i;
+    char   *cp = &ch;
+    float  *fp = &f;
+    double *dp = &d;
+
+    printf("%ld\n", sizeof(ip));  // 8
+    printf("%ld\n", sizeof(cp));  // 8
+    printf("%ld\n", sizeof(fp));  // 8
+    printf("%ld\n", sizeof(dp));  // 8
+
+    return 0;
+}
+
+
+> Size of a pointer is always 8 bytes (on a 64-bit system), regardless of the data type it points to — because it only needs to store a memory address, not the value itself.
+
