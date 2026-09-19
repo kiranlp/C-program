@@ -101,20 +101,6 @@ int *p;         // wild pointer: points to an unknown address
 printf("*p=%d\n", *p);   // undefined behavior, even if it prints 10
 
 
-Even if the program appears to print `10`, that is luck. Behavior is 'undefined'.
-
-Ways to avoid wild pointers:
-
-
-int *p = NULL;      // initialize to NULL if no target yet
-int *q = &i;        // or point it at a valid object right away
-
-if (p != NULL) {
-    *p = 5;         // check before dereferencing
-}
-
-
-
 
  4. const with pointers
 
@@ -203,6 +189,7 @@ int main(void)
 
     printf("p=%p q=%p\n", (void *)p, (void *)q);   // 1004 1001
     printf("*q=%d\n", *q);                         // 1
+
     // *p now reads memory outside i: garbage / undefined behavior
 
     return 0;
@@ -218,7 +205,7 @@ address:   1003       1002       1001       1000
                                  q + 1     p, q (start)
 
 
-- `*q` at 1000 reads `0000 0100` = **4**
+- `*q` at 1000 reads `0000 0100` = 4
 - After `q = q + 1`, `*q` at 1001 reads `0000 0001` = 1
 - After `p = p + 1`, `p` is 1004, past the end of `i`. Reading `*p` there gives 'garbage', because that memory does not belong to `i`.
 
