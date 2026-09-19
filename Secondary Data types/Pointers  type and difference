@@ -1,0 +1,249 @@
+ C Pointers: 
+
+Notes on pointer basics, wild pointers, `const` with pointers, and pointer increment/decrement.
+All examples assume a little-endian machine (x86, ARM Cortex-M in default config), where the least significant byte sits at the lowest address.
+
+ Contents
+
+1. [Pointer type decides how memory is read]       (1-pointer-type-decides-how-memory-is-read)
+2. [Valid and invalid pointer assignments]         (2-valid-and-invalid-pointer-assignments)
+3. [Wild pointer](#3-wild-pointer)
+4. [const with pointers](#4-const-with-pointers)
+5. [Increment and decrement of pointers]           (5-increment-and-decrement-of-pointers)
+6. [Quick reference](#6-quick-reference)
+
+
+
+ 1. Pointer type decides how memory is read
+
+A pointer stores an address. Its 'type' decides how many bytes are accessed and how they are interpreted (signed or unsigned).
+
+
+#include <stdio.h>
+
+int main(void)
+{
+    int i = 0;
+    printf("i=%d\n", i);                 // i=0
+
+    char *p;
+    unsigned char *q;
+
+    p = (char *)&i;
+    q = (unsigned char *)&i;
+
+    *p = 255;                            // writes 0xFF into the lowest byte of i
+    printf("*p=%d *q=%d\n", *p, *q);     // *p=-1  *q=255
+    printf("i=%d\n", i);                 // i=255 (only the lowest byte was written)
+
+    return 0;
+}
+
+
+Why the outputs differ:
+
+- `0xFF` read as `signed char` is `-1`.
+- `0xFF` read as `unsigned char` is `255`.
+- `*p = 255` changes only **one byte** of `i`. On a little-endian machine that is the lowest byte, so `i` becomes `255`.
+
+Memory layout of `i` after the write (address 1000 is the lowest byte):
+
+
+address:   1003       1002       1001       1000
+         [00000000] [00000000] [00000000] [11111111]
+                                              ^
+                                          p, q point here
+
+
+> Note: `char *p = &i;` (without a cast) gives an incompatible-pointer-type warning. Cast explicitly: `(char *)&i`.
+> Storing 255 into a plain `char` is implementation-defined when `char` is signed. Use `unsigned char` when you mean raw bytes.
+
+
+
+ 2. Valid and invalid pointer assignments
+
+`*p` is the 'value' at the address. `p` is the 'address' itself.
+
+
+int i;
+int *p;
+
+*p = &i;        // INVALID: *p holds an int value, not an address
+p = &i;         // valid:   p holds an address
+*p = 100;       // valid:   (after p = &i) writes 100 into i
+
+int *p2 = &i;   // valid:   assigning during initialization
+                // here the * is part of the declaration, not a dereference
+
+
+Note the two different meanings of `*`:
+
+| Where                        | Meaning                                      |
+
+| `int *p = &i;` (declaration) | declares `p` as a pointer to int             |
+| `*p = 100;` (statement)      | dereference: access the value at the address |
+
+So `int *p = &i;` is **not** the same as `*p = &i;`.
+
+
+
+ 3. Wild pointer
+
+A pointer that is declared but 'never initialized' holds a garbage address.
+
+
+int i = 10;
+int *p;         // wild pointer: points to an unknown address
+
+*p = i;         // INVALID: writes through an uninitialized pointer
+                // undefined behavior (may crash, may appear to work)
+
+printf("*p=%d\n", *p);   // undefined behavior, even if it prints 10
+
+
+Even if the program appears to print `10`, that is luck. Behavior is 'undefined'.
+
+Ways to avoid wild pointers:
+
+
+int *p = NULL;      // initialize to NULL if no target yet
+int *q = &i;        // or point it at a valid object right away
+
+if (p != NULL) {
+    *p = 5;         // check before dereferencing
+}
+
+
+
+
+ 4. const with pointers
+
+There are two things that can be fixed: the 'value' being pointed at, and the 'address' stored in the pointer.
+
+
+int i = 10, j = 20;
+
+
+ 4.1 Pointer to constant: `const int *p`
+
+The value cannot be changed through `p`. The address can change.
+
+
+const int *p = &i;    // read-only pointer
+
+*p = 200;             // ERROR: cannot modify value through p
+p = &j;               // valid: p can point somewhere else
+
+
+Read it as: "p is a pointer to a constant int."
+`int const *p` means exactly the same thing.
+
+### 4.2 Constant pointer: `int *const p`
+
+The address is fixed. The value at that address can be changed.
+
+
+int *const p = &i;    // constant pointer
+
+*p = 200;             // valid: value can be modified
+p = &j;               // ERROR: cannot change the address
+
+
+A constant pointer **must be initialized** at the point of declaration, otherwise it can never be assigned later.
+
+
+int *const p;         // bad: uninitialized and can never be set
+
+
+ 4.3 Constant pointer to constant: `const int *const p`
+
+Both the address and the value are fixed.
+
+
+const int *const p = &i;   // read-only constant pointer
+
+*p = 200;             // ERROR
+p = &j;               // ERROR
+
+
+### How to read these declarations
+
+Read right to left. Whatever `const` sits next to is what is fixed.
+
+| Declaration    | Read as                     | `*p = x`   | `p = &j` |
+|
+| `int *p`       | pointer to int              | OK         | OK |
+| `const int *p` | pointer to const int        | ERROR      | OK |
+| `int const *p` | pointer to const int (same) | ERROR      | OK |
+| `int *const p` | const pointer to int        | OK         | ERROR |
+| `const int *const p` | const pointer to const int | ERROR | ERROR |
+
+Rule of thumb: `const` **left of** the `*` protects the value. `const` 'right of' the `*` protects the address.
+
+
+
+ 5. Increment and decrement of pointers
+
+Adding 1 to a pointer moves it by `sizeof(pointed type)` bytes, not by 1 byte.
+
+
+#include <stdio.h>
+
+int main(void)
+{
+    int i = 260;                      // 260 = 0x0104, assume &i is 1000
+    int  *p = &i;
+    char *q = (char *)&i;
+
+    printf("p=%p q=%p\n", (void *)p, (void *)q);   // 1000 1000
+    printf("*p=%d *q=%d\n", *p, *q);               // 260  4
+
+    p = p + 1;                        // int pointer moves by 4 bytes
+    q = q + 1;                        // char pointer moves by 1 byte
+
+    printf("p=%p q=%p\n", (void *)p, (void *)q);   // 1004 1001
+    printf("*q=%d\n", *q);                         // 1
+    // *p now reads memory outside i: garbage / undefined behavior
+
+    return 0;
+}
+
+
+Memory layout of `i = 260` (little-endian):
+
+
+address:   1003       1002       1001       1000
+         [00000000] [00000000] [00000001] [00000100]
+                                    ^          ^
+                                 q + 1     p, q (start)
+
+
+- `*q` at 1000 reads `0000 0100` = **4**
+- After `q = q + 1`, `*q` at 1001 reads `0000 0001` = 1
+- After `p = p + 1`, `p` is 1004, past the end of `i`. Reading `*p` there gives 'garbage', because that memory does not belong to `i`.
+
+### Pointer arithmetic rules
+
+| Pointer type | `p + 1` moves by | `p - 1` moves by |
+
+| `char *` | 1 byte | 1 byte |
+| `short *` | 2 bytes | 2 bytes |
+| `int *` | 4 bytes | 4 bytes |
+| `double *` | 8 bytes | 8 bytes |
+
+Decrement works the same way in the opposite direction (toward lower addresses). Sizes shown are typical; use `sizeof` to be sure on your platform.
+
+> Print addresses with `%p` (cast to `void *`), not `%u`, so it stays correct on 64-bit systems.
+
+
+
+ 6. Quick reference
+
+- &i is the address of i. *p is the value at address p.
+- `p = &i;` is valid. `*p = &i;` is invalid.
+- Never dereference an uninitialized (wild) pointer. Initialize to `NULL` or a valid address.
+- `const int *p`: value fixed, address changeable.
+- `int *const p`: address fixed (must initialize), value changeable.
+- `const int *const p`: both fixed.
+- `p + n` moves by `n * sizeof(*p)` bytes.
+- Pointer type controls how many bytes are read and whether they are signed or unsigned.
