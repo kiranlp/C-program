@@ -7,10 +7,10 @@ All examples assume a little-endian machine (x86, ARM Cortex-M in default config
 
 1. [Pointer type decides how memory is read]       (1-pointer-type-decides-how-memory-is-read)
 2. [Valid and invalid pointer assignments]         (2-valid-and-invalid-pointer-assignments)
-3. [Wild pointer](#3-wild-pointer)
-4. [const with pointers](#4-const-with-pointers)
+3. [Wild pointer]                                  (#3-wild-pointer)
+4. [const with pointers]                           (#4-const-with-pointers)
 5. [Increment and decrement of pointers]           (5-increment-and-decrement-of-pointers)
-6. [Quick reference](#6-quick-reference)
+6. [Quick reference]                              (#6-quick-reference)
 
 
 
