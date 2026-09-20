@@ -10,7 +10,7 @@ All examples assume a little-endian machine (x86, ARM Cortex-M in default config
 3. [Wild pointer]                                  (#3-wild-pointer)
 4. [const with pointers]                           (#4-const-with-pointers)
 5. [Increment and decrement of pointers]           (5-increment-and-decrement-of-pointers)
-6. [Quick reference]                              (#6-quick-reference)
+6. [Quick reference]                               (#6-quick-reference)
 
 
 
