@@ -1,0 +1,153 @@
+ C Pointers 
+
+
+ Contents
+
+1. [Swapping first and last byte using pointers]     (#1-swapping-first-and-last-byte-using-pointers)
+2. [Pre/post increment with pointers]             (#2-prepost-increment-with-pointers)
+3. [`const` with pointers]                    (#3-const-with-pointers)
+4. [Void pointer (generic pointer)]           (#4-void-pointer-generic-pointer)
+5. [NULL pointer]                            (#5-null-pointer)
+6. [Arithmetic operations on pointers]          (#6-arithmetic-operations-on-pointers)
+
+
+
+ 1. Swapping first and last byte using pointers
+
+A `char *` moves one byte at a time, so it can be used to access the individual bytes of an `int`.
+
+
+#include <stdio.h>
+
+int main()
+{
+    int num = 0x12345678;
+    char *p = (char *)&num;   // points to 1st byte
+    char *q = p + 3;          // points to last byte (4-byte int)
+    char t;
+
+    t  = *p;
+    *p = *q;
+    *q = t;
+
+    printf("%x\n", num);
+    return 0;
+}
+
+
+
+
+ 2. Pre/post increment with pointers
+
+Setup (assume `&i` is `1000`, `int` is 4 bytes):
+
+
+int i = 10, j;
+int *p, *q;
+p = &i;      // p holds 1000
+
+
+| Statement     | Type                | What happens | Result |
+
+| `q = p++;`    | Post-inc of address | First assign, then increment. `q` gets 1000, then `p` becomes 1004  | `q = 1000`, `p = 1004` |
+| `j = *p++;`   | Post-inc of address | `j` gets `*p` (10), then `p` becomes 1004                           | `j = 10`, `p = 1004`   |
+| `j = *++p;`   | Pre-inc of address  | `p` becomes 1004 first, then `j` gets the value at 1004             | `j` = garbage value    |
+| `j = ++*p;`   | Pre-inc of value    | `*p` is incremented first (10 → 11), then assigned                  | `j = 11`, `i = 11`     |
+| `j = ++(*p);` | Pre-inc of value    | Same as above                                                       | `j = 11`, `i = 11`     |
+| `j = (*p)++;` | Post-inc of value   | `j` gets 10, then `*p` is incremented                               |`j = 10`, `i = 11`      |
+
+> Tip: Postfix `++` has higher precedence than `*`, so `*p++` means `*(p++)`. Use `(*p)++` to increment the value.
+
+
+
+ 3. `const` with pointers
+
+| Expression | Increments | `const int *p`   | `int *const p`   | `const int *const p`    |
+                              (value fixed)    (address fixed)     (address & value fixed)
+                              
+| `*p++`     | address    | Valid            | Error            | Error                   |
+| `*++p`     | address    | Valid            | Error            | Error                   |
+| `(*p)++`   | value      | Error            | Valid            | Error                   |
+| `++(*p)`   | value      | Error            | Valid            | Error                   |
+| `++*p`     | value      | Error            | Valid            | Error                   |
+
+- `const int *p`: the value can't be changed through `p`, but `p` can point elsewhere.
+- `int *const p`: `p` can't point elsewhere, but the value can be changed.
+- `const int *const p`: neither the address nor the value can be changed.
+
+
+
+ 4. Void pointer (generic pointer)
+
+A `void *` has no specific data type, but it can be used like a pointer of any type. That is why it is called a 'generic pointer'.
+
+> Note: At the time of dereferencing, a void pointer must be explicitly type converted (cast), otherwise it gives a compile error.
+
+
+#include <stdio.h>
+
+int main()
+{
+    int i = 10;
+    char ch = 'a';
+    float f = 23.5;
+    void *p;
+
+    p = &i;
+    printf("%d\n", *(int *)p);     // 10
+
+    p = &ch;
+    printf("%c\n", *(char *)p);    // a
+
+    p = &f;
+    printf("%f\n", *(float *)p);   // 23.500000
+
+    return 0;
+}
+
+
+In `*(float *)p`, the `(float *)` part is the 'type conversion' and the leading `*` is the 'dereference'.
+
+
+
+ 5. NULL pointer
+
+When a pointer is holding `0` as its address, it is called a 'NULL pointer'.
+
+Application: a NULL pointer is used to avoid **wild pointers** and 'dangling pointers'.
+
+
+int main()
+{
+    int *p;
+    p = 0;       // p = NULL (null pointer)
+    return 0;
+}
+
+
+As per the C programming standard, whenever our work with a pointer is completed, make it `NULL`.
+
+
+
+ 6. Arithmetic operations on pointers
+
+
+int *p = (int *)1000;
+int *q = (int *)1020;
+
+printf("%ld\n", q - p);   // 5
+
+
+The memory difference between the two addresses is `1020 - 1000 = 20` bytes. Since `int` is 4 bytes, `20 / 4 = 5`.
+
+(Side note from the notes: if `q` were `1015`, the result would be `15 / 4 = 3`, truncated.)
+
+Adding, multiplying or dividing two pointers is not allowed:
+
+
+printf("%ld\n", q + p);   // error
+printf("%ld\n", q * p);   // error
+printf("%ld\n", q / p);   // error
+
+
+> Only subtraction of two pointers is valid, and both pointers must be of the same type.
