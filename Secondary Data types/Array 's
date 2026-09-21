@@ -1,0 +1,200 @@
+
+Array in C
+
+An 'array' is a secondary (derived) data type: a collection of similar-type data stored in 'contiguous memory locations'.
+
+
+ Why use arrays?
+When we have to work on a large amount of data, arrays let us store and process (handle) it in an easier and smarter way, instead of declaring many separate variables.
+
+
+ Syntax :        
+              datatype var_name[ele];     // elements
+
+`ele` = number (count) of data items we are storing in the array.
+           
+
+int a[5];      // a is an array of 5 ints
+char s[10];    // s is an array of 10 chars
+
+
+ Key points
+
+- Data stored in an array is called an 'array element'.
+- Use the - index operator `[]` to access array elements.
+- Array index always starts at 0.
+- Total size = number of elements x size of one element (e.g. 5 x 4 = 20 bytes for `int a[5]`).
+
+ Memory layout of  int a[5] = {10, 20, 30, 40, 50};
+
+
+| Index             | a[0] | a[1] | a[2] | a[3] | a[4] |
+| Value             | 10   | 20   | 30   | 40   | 50   |
+| Address (example) | 1000 | 1004 | 1008 | 1012 | 1016 |
+
+
+ Example: accessing elements
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5] = {10, 20, 30, 40, 50};
+
+    printf("%zu\n", sizeof(a[0]));   // 4
+    printf("%d\n", a[0]);            // 10
+    printf("%d\n", a[2]);            // 30
+
+    a[2]++;
+    printf("%d\n", a[2]);            // 31
+
+    printf("%zu\n", sizeof(a));      // 20 (bytes) = 4 x 5
+
+    return 0;
+}
+
+
+/// Printing all elements
+
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5] = {10, 20, 30, 40, 50};
+    int i;
+
+    for (i = 0; i < 5; i++)
+        printf("%d\n", a[i]);
+
+    printf("\n");
+    return 0;
+}
+
+Output:
+
+10
+20
+30
+40
+50
+
+
+Without a loop, this is the same as writing `printf("%d\n", a[0]);` ... `printf("%d\n", a[4]);` one by one.
+
+
+/// Printing addresses of elements
+
+printf("%p\n", (void *)&a[i]);   // prints address of each element
+
+/// Scan and print array elements
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5];
+    int i, ele;
+
+    ele = sizeof(a) / sizeof(a[0]);   // 5
+
+    printf("Enter an array elements:\n");
+    for (i = 0; i < ele; i++)
+        scanf("%d", &a[i]);
+
+    for (i = 0; i < ele; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+
+    return 0;
+}
+
+Input: `10 20 30 40 50`
+
+Output: `10 20 30 40 50`
+
+
+ Valid and invalid declarations
+
+int a[5];                          // valid
+int a[];                           // invalid (index can't be empty)
+int a[] = {10, 20, 30, 40, 50};    // valid (compiler decides size: 5 elements, 20 bytes)
+
+
+---> Array initialization
+
+ //Full initialization
+
+int a[5] = {10, 20, 30, 40, 50};   // valid
+
+
+/// Excess elements
+
+int a[5] = {10, 20, 30, 40, 50, 60, 70};
+
+- Excess elements in the array initializer are not stored.
+- Only the first 5 are accepted (most compilers give a warning).
+
+
+--> Partial initialization
+
+int a[5] = {10, 20};         // 10, 20, 0, 0, 0
+
+- Remaining elements are set to '0'.
+
+ -->  Size decided by user input (dynamic declaration)
+
+int ele;
+printf("Enter no of elements:\n");
+scanf("%d", &ele);
+int a[ele];                   // dynamic declaration (variable length array)
+
+
+- Some compilers accept this, some give an error.
+- The size of the array (in bytes) is decided based on the user input.
+
+/// Printing elements in reverse
+
+#include <stdio.h>
+int main()
+{
+    int a[5];
+    int i, ele = 5;
+
+    printf("Enter an array elements:\n");
+    for (i = 0; i < ele; i++)
+        scanf("%d", &a[i]);
+
+    for (i = ele - 1; i >= 0; i--)
+        printf("%d ", a[i]);
+    printf("\n");
+
+    return 0;
+}
+
+
+For `ele = 5` and array `10 20 30 40 50`: output is `50 40 30 20 10`.
+
+
+ Common mistake
+
+for (i = ele; i > 0; i--)
+    printf("%d ", a[i]);
+
+
+This starts at `a[5]`, which is out of bounds (garbage value first), and it never prints `a[0]`. Output looks like `<garbage> 40 30 20 10`.
+
+Correct loop: `for (i = ele - 1; i >= 0; i--)`
+
+ Quick summary
+
+| Concept            | Detail                                               |
+
+| Definition         | Collection of similar-type data in contiguous memory |
+| Index              | Starts at 0, last is `size - 1`                      |
+| Size in bytes      | `sizeof(a)`                                          |
+| Number of elements | `sizeof(a) / sizeof(a[0])`                           |
+| Partial init       | Remaining elements become 0                          |
+| Empty size `[]`    | Only valid with an initializer                       |
+
+ 
