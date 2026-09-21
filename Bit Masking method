@@ -6,7 +6,6 @@ function data passing
    printf() will always print from left to right.   ----->
 
 
-
    BIT MASKING
 
 // WAP to swap first and last byte of int num, using bit masking method.
@@ -32,7 +31,6 @@ ex:    i/p:  int num=0x12345678
   num= t1 | t2 | t3;
   return 0;
 }
-
 
 
 // WAP to convert little endian number into big endian format.
@@ -63,4 +61,3 @@ num= t1 | t2 | t3 | t4;
 printf(" after: num= %x \n", num);
 return 0;
 }
-
