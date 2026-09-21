@@ -1,5 +1,5 @@
- C Pointers 
 
+C Pointers 
 
  Contents
 
@@ -9,7 +9,6 @@
 4. [Void pointer (generic pointer)]           (#4-void-pointer-generic-pointer)
 5. [NULL pointer]                            (#5-null-pointer)
 6. [Arithmetic operations on pointers]          (#6-arithmetic-operations-on-pointers)
-
 
 
  1. Swapping first and last byte using pointers
@@ -33,8 +32,6 @@ int main()
     printf("%x\n", num);
     return 0;
 }
-
-
 
 
  2. Pre/post increment with pointers
@@ -71,11 +68,10 @@ p = &i;      // p holds 1000
 | `++(*p)`   | value      | Error            | Valid            | Error                   |
 | `++*p`     | value      | Error            | Valid            | Error                   |
 
+
 - `const int *p`: the value can't be changed through `p`, but `p` can point elsewhere.
 - `int *const p`: `p` can't point elsewhere, but the value can be changed.
 - `const int *const p`: neither the address nor the value can be changed.
-
-
 
  4. Void pointer (generic pointer)
 
@@ -109,7 +105,6 @@ int main()
 In `*(float *)p`, the `(float *)` part is the 'type conversion' and the leading `*` is the 'dereference'.
 
 
-
  5. NULL pointer
 
 When a pointer is holding `0` as its address, it is called a 'NULL pointer'.
@@ -128,9 +123,7 @@ int main()
 As per the C programming standard, whenever our work with a pointer is completed, make it `NULL`.
 
 
-
  6. Arithmetic operations on pointers
-
 
 int *p = (int *)1000;
 int *q = (int *)1020;
@@ -148,6 +141,5 @@ Adding, multiplying or dividing two pointers is not allowed:
 printf("%ld\n", q + p);   // error
 printf("%ld\n", q * p);   // error
 printf("%ld\n", q / p);   // error
-
 
 > Only subtraction of two pointers is valid, and both pointers must be of the same type.
