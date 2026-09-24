@@ -2,15 +2,13 @@
 
 These are the array programs I worked through  while practicing C. 
 
-
 int a[5];
 int ele = sizeof(a) / sizeof(a[0]);   // number of elements in the array
 
 
 sizeof(a) gives the size of the whole array in bytes, and dividing by sizeof(a[0]) gives the count. This way I don't have to hard-code the size in every loop.
 
- Programs
-
+ programs
 1. Even numbers from an array
 2. Power of 2 numbers from an array
 3. Prime numbers from an array
