@@ -24,7 +24,6 @@ sizeof(a) gives the size of the whole array in bytes, and dividing by sizeof(a[0
  1. Even numbers from an array
 Take the elements, then print only the ones divisible by 2.
 
-
 #include <stdio.h>
 
 int main()
@@ -81,7 +80,7 @@ Works for 2 too: the inner loop never runs, j stays 2, and a[i] == j. For 1, j i
 
 Put one index at the start (i) and one at the end (j), swap, then move them toward each other until they meet.
 
-
+{
 printf("before: ");
 for (i = 0; i < ele; i++)
     printf("%d ", a[i]);
@@ -98,8 +97,7 @@ printf("after: ");
 for (i = 0; i < ele; i++)
     printf("%d ", a[i]);
 printf("\n");
-
-
+}
 
 before: 10 20 30 40 50
 after:  50 40 30 20 10
