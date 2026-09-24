@@ -1,0 +1,284 @@
+  C Array Programs 
+
+These are the array programs I worked through  while practicing C. 
+
+
+int a[5];
+int ele = sizeof(a) / sizeof(a[0]);   // number of elements in the array
+
+
+sizeof(a) gives the size of the whole array in bytes, and dividing by sizeof(a[0]) gives the count. This way I don't have to hard-code the size in every loop.
+
+ Programs
+
+1. Even numbers from an array
+2. Power of 2 numbers from an array
+3. Prime numbers from an array
+4. Reverse an array by swapping
+5. Swap adjacent elements
+6. Rotate an array right by one
+7. Largest element
+8. Second largest element
+9. Bubble sort method
+10. Selection sort method.
+
+
+ 1. Even numbers from an array
+Take the elements, then print only the ones divisible by 2.
+
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5];
+    int i, ele;
+    ele = sizeof(a) / sizeof(a[0]);
+
+    printf("Enter array elements:\n");
+    for (i = 0; i < ele; i++)
+        scanf("%d", &a[i]);
+
+    for (i = 0; i < ele; i++)
+        if (a[i] % 2 == 0)
+            printf("%d ", a[i]);
+    printf("\n");
+
+    return 0;
+}
+
+
+ 2. Power of 2 numbers from an array
+ A power of 2 has exactly one bit set, so 'n & (n-1)' clears that bit and gives 0.
+
+
+for (i = 0; i < ele; i++)
+    if (a[i] > 0 && (a[i] & (a[i] - 1)) == 0)
+        printf("%d ", a[i]);
+printf("\n");
+
+
+ added  a[i] > 0 because 0 & (0-1) is also 0, and 0 is not a power of 2.
+
+ 3. Prime numbers from an array
+
+For each element, try dividing it by every number from 2 up to just below it. If something divides it, it's not prime, so break. If the loop finishes without a break, `j` ends up equal to the number itself, and that's how we know it's prime.
+
+for (i = 0; i < ele; i++)
+{
+    for (j = 2; j < a[i]; j++)
+    {
+        if (a[i] % j == 0)
+            break;
+    }
+    if (a[i] == j)
+        printf("%d ", a[i]);
+}
+printf("\n");
+
+Works for 2 too: the inner loop never runs, j stays 2, and a[i] == j. For 1, j is 2 and a[i] is 1, so it correctly isn't printed.
+
+
+ 4. Reverse an array by swapping
+
+Put one index at the start (i) and one at the end (j), swap, then move them toward each other until they meet.
+
+
+printf("before: ");
+for (i = 0; i < ele; i++)
+    printf("%d ", a[i]);
+printf("\n");
+
+for (i = 0, j = ele - 1; i < j; i++, j--)
+{
+    t = a[i];
+    a[i] = a[j];
+    a[j] = t;
+}
+
+printf("after: ");
+for (i = 0; i < ele; i++)
+    printf("%d ", a[i]);
+printf("\n");
+
+
+
+before: 10 20 30 40 50
+after:  50 40 30 20 10
+
+
+ 5. Swap adjacent elements
+
+Swap elements in pairs: (0,1), (2,3), and so on. Both 'i' and 'j' jump by 2 each time.
+
+
+for (i = 0, j = 1; i < ele - 1; i = i + 2, j = j + 2)
+{
+    t = a[i];
+    a[i] = a[j];
+    a[j] = t;
+}
+
+
+
+before: 10 20 30 40 50 60
+after:  20 10 40 30 60 50
+
+With an odd number of elements, the last one just stays where it is.
+
+
+ 6. Rotate an array right by one
+
+Save the last element, shift everything one place to the right, then put the saved value at index 0.
+
+t = a[ele - 1];
+for (i = ele - 1; i > 0; i--)
+    a[i] = a[i - 1];
+a[0] = t;
+
+
+before: 10 20 30 40 50
+after:  50 10 20 30 40
+
+
+ 7. Largest element
+
+Assume the first element is the largest, then walk through the rest and update whenever something bigger shows up. The array isn't modified.
+
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5];
+    int i, ele, L;
+    ele = sizeof(a) / sizeof(a[0]);
+
+    printf("Enter array elements:\n");
+    for (i = 0; i < ele; i++)
+        scanf("%d", &a[i]);
+
+    L = a[0];
+    for (i = 1; i < ele; i++)
+        if (a[i] > L)
+            L = a[i];
+
+    printf("Largest ele is: %d\n", L);
+    return 0;
+}
+
+Dry run with {25, 10, 37, 45, 5}: L starts as 25, becomes 37 at index 2, then 45 at index 3. Output: Largest ele is: 45.
+
+ 8. Second largest element
+
+Keep two variables, L (largest) and SL (second largest). When a new biggest value comes in, the old largest becomes the second largest. Otherwise, if the value sits between SL and L, it replaces SL.
+L = 0;
+SL = 0;
+
+for (i = 0; i < ele; i++)
+{
+    if (a[i] > L)
+    {
+        SL = L;
+        L = a[i];
+    }
+    else if (a[i] > SL && a[i] != L)
+        SL = a[i];
+}
+printf("L=%d SL=%d\n", L, SL);
+
+
+The a[i] != L check is for duplicates. With {10, 20, 40, 30, 40} and no check, the second 40 would make SL equal to 40, which is wrong. If there are no duplicates, plain `else if (a[i] > SL)` is enough.
+
+Limitation: starting L and SL at 0 only works for positive numbers. For negative input, initialize with a[0] or INT_MIN instead.
+
+
+9. Bubble sort
+Compare adjacent elements and swap them if they're in the wrong order. After each pass of the outer loop, the largest remaining element "bubbles" to the end, so the inner loop can be one shorter each time (`ele - 1 - i`).
+
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5];
+    int i, ele, j, t;
+    ele = sizeof(a) / sizeof(a[0]);
+
+    printf("Enter an array elements:\n");
+    for (i = 0; i < ele; i++)
+        scanf("%d", &a[i]);
+
+    printf("before: ");
+    for (i = 0; i < ele; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+
+    for (i = 0; i < ele - 1; i++)
+    {
+        for (j = 0; j < ele - 1 - i; j++)
+        {
+            if (a[j] > a[j + 1])
+            {
+                t = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = t;
+            }
+        }
+    }
+
+    printf("after: ");
+    for (i = 0; i < ele; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+
+    return 0;
+}
+
+
+Which pairs get compared (5 elements):
+
+| i = 0  | i = 1 | i = 2 | i = 3 | i = 4 |
+| j = 0  | 0- 1  | 0-1   | 0-1   | 0-1   |
+| j = 1  | 1- 2  | 1-2   | 1-2   | 
+| j = 2  | 2- 3  | 2-3   |   
+| j = 3  | 3- 4  | 
+
+ Input 10 5 50 2 1 gives 1 2 5 10 50. To sort in descending order, flip the comparison to a[j] < a[j + 1].
+
+ 10. Selection sort
+
+Pick one index, compare it with every element after it, and swap whenever something is smaller. After the first pass, index 0 holds the smallest value, and so on.
+
+
+for (i = 0; i < ele - 1; i++)
+{
+    for (j = i + 1; j < ele; j++)
+    {
+        if (a[i] > a[j])
+        {
+            t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+    }
+}
+
+
+Which pairs get compared:
+
+|  i = 0 | i = 1 | i = 2 | i = 3 |
+|  0-1   | 1-2   | 2-3   | 3-4   |
+|  0-2   | 1-3   | 2-4   | 
+|  0-3   | 1-4   | 
+|  0-4   | 
+
+The setup, input and output printing are the same as in bubble sort.
+
+
+ Bubble sort vs selection sort
+
+- 'Bubble sort' compares neighbours (j and j+1).
+- 'Selection sort' fixes one index and compares it with everything after it.
+
+Both take O(n²) time, which is fine for small arrays like these.
