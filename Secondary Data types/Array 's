@@ -7,7 +7,6 @@ An 'array' is a secondary (derived) data type: a collection of similar-type data
  Why use arrays?
 When we have to work on a large amount of data, arrays let us store and process (handle) it in an easier and smarter way, instead of declaring many separate variables.
 
-
  Syntax :        
               datatype var_name[ele];     // elements
 
@@ -109,9 +108,8 @@ int main()
     return 0;
 }
 
-Input: `10 20 30 40 50`
-
-Output: `10 20 30 40 50`
+Input: 10 20 30 40 50
+Output: 10 20 30 40 50
 
 
  Valid and invalid declarations
@@ -173,7 +171,7 @@ int main()
 }
 
 
-For `ele = 5` and array `10 20 30 40 50`: output is `50 40 30 20 10`.
+For  ele = 5 and array 10 20 30 40 50: output is 50 40 30 20 10.
 
 
  Common mistake
