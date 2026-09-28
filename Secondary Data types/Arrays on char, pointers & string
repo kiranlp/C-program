@@ -1,0 +1,232 @@
+
+    Arrays on Char, Pointers & Strings
+
+ 1. Array name = base address
+
+- The array name gives the address of the first element.
+- It behaves like a 'constant pointer', so you can't modify it.
+
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5] = {10, 20, 30, 40, 50};      // 4 x 5 = 20 bytes
+
+    // a++;             // error
+    // a = a + 1;      // error
+
+    printf("a = %u\n", a);
+    printf("&a[0] = %u\n", &a[0]);                               // same as a
+
+    printf("a = %u  a+1 = %u\n", a, a + 1);                     // a+1 moves by 1 element (4 bytes): 1000 -> 1004
+
+    printf("&a = %u  &a+1 = %u\n", &a, &a + 1);                // &a is the whole array's address, so &a+1 moves by 20 bytes: 1000 -> 1020
+
+    return 0;
+}
+
+
+| Expression | Meaning                    | Jumps by |
+
+|  a         | address of first element   | -        |
+|  a + 1     | address of next element    | 4 bytes  |
+|   &a       | address of whole array     | -        |
+|  &a + 1    | address after whole array  | 20 bytes |
+
+ 2. Accessing elements
+
+These are all the same thing:
+
+a[i]  ==  *(a + i)  ==  *(i + a)  ==  i[a]
+&a[i] == a + i
+
+
+Example:
+
+int a[5] = {10, 20, 30, 40, 50};
+printf("%d %d\n", *(a + 3), *a + 3);               // 40 13
+
+
+- *(a + 3) gives the 4th element, which is 40.
+- *a + 3 gives 10 + 3 = 13 (the * is applied first).
+
+ Copy one array into another
+
+b = a; is invalid. We have to copy one element at a time.
+
+
+#include <stdio.h>
+
+int main()
+{
+    int a[5] = {1, 2, 3, 4, 5}, b[5], i;
+
+    // b = a;   // invalid, error
+
+    for (i = 0; i < 5; i++)
+        b[i] = a[i];
+
+    for (i = 0; i < 5; i++)
+        printf("%d ", b[i]);              // 1 2 3 4 5
+    printf("\n");
+
+    return 0;
+}
+
+
+ 3. Working on an array with a pointer
+
+
+ int pointer
+
+int a[5] = {10, 20, 30, 40, 50}, i;
+int *p;
+p = a;
+
+for (i = 0; i < 5; i++)
+    printf("%d ", *p++);          // 10 20 30 40 50
+
+
+Other versions (each starting with p = a):
+
+
+printf("%d ", ++*p);   // 11 12 13 14 15  (increments the value at a[0], p doesn't move)
+printf("%d ", *++p);   // 20 30 40 50 garbage  (moves p first, then reads; the last read goes past the array)
+
+
+ char pointer
+
+Reading an int array through a char * gives one byte at a time.
+
+
+int a[5] = {10, 20, 30, 40, 50}, i;
+char *p;
+p = (char *)a;
+
+for (i = 0; i < 5; i++)
+    printf("%d ", *p++);     // 10 0 0 0 20
+
+
+An int is 4 bytes, so 10 is stored as `10 0 0 0` (little endian). The pointer moves 1 byte per step, so 5 steps only cover the first 5 bytes.
+
+
+ 4. char array
+
+A char array is just a collection of chars.
+
+
+char a[] = {'a', 'b', 'c', 'd', 'e'};
+printf("%d\n", sizeof(a));              // 5
+printf("%d\n", a[1]);                  // 98 (ASCII of 'b')
+
+a[1] ^= 32;                            // toggles the case bit
+printf("%c\n", a[1]);                 // B  (ASCII 66)
+
+
+ 5. Strings
+
+A string is a collection of chars **ended with `'\0'`**.
+
+
+char s[] = "abcde";
+printf("%d\n", sizeof(s));             // 6  (5 chars + '\0')
+
+char a[] = {'a','b','c','d','e'};
+printf("%d\n", sizeof(a));             // 5  (no '\0')
+
+char a2[10] = {'a','b','c','d','e'};
+printf("%d\n", sizeof(a2));            // 10
+
+char s2[10] = "abcde";
+printf("%d\n", sizeof(s2));           // 10 (abcde + '\0' + 4 more zeros)
+
+
+### What is '\0'?
+
+- Marks the 'end of a string'.
+- Acts as a separator between valid and invalid chars in the array.
+- Takes 1 byte, and all 8 bits are 0.
+- It is not a printable character.
+
+ ASCII values to remember
+
+| Char | Value |
+
+| space | 32 |
+| '\0' | 0 |
+| '\n | 10 |
+
+ 6. Scanning and printing strings
+
+- To print a string we need an array.
+- '%s' is used to scan and print.
+- '%s' always needs an - address (the array name is already one, so no '&').
+
+
+#include <stdio.h>
+int main()
+{
+    char s[10];
+    printf("enter a string:\n");
+
+    scanf("%s", s);                // only accepts one word (stops at space)
+    // scanf("%[^\n]", s);         // accepts the full line, including spaces
+
+    printf("String is: %s\n", s);
+    printf("%s\n", s + 2);        // prints from index 2 onwards
+
+    // gets(s);                   // avoid it
+    // puts(s);                  // prints a string
+
+    return 0;
+}
+
+
+Input 'abc def' with  %[^\n] gets stored as
+a b c ' ' d e f '\0' =  97 98 99 32 100 101 102 0.
+Printing stops at the '0'.
+
+Note: s[10] only holds 9 chars plus '\0'. Typing more than that overflows the array, so use 'scanf("%9s", s)' to be safe.
+
+
+ 7. Print a string char by char
+
+#include <stdio.h>
+
+int main()
+{
+    char s[10];
+    int i;
+
+    printf("enter a string:\n");
+    scanf("%s", s);
+
+   // Wrong approach: sizeof(s)/sizeof(s[0]) gives 10, the array size, not the string length.
+    // for (i = 0; i < 10; i++)
+
+    for (i = 0; s[i] != '\0'; i++)         // correct
+        printf("%c ", s[i]);
+
+    // for (i = 0; s[i]; i++)             // same thing, compiler checks s[i] != '\0'
+
+    printf("\n");
+    return 0;
+}
+
+
+Output:
+
+enter a string:
+abc
+a b c
+
+
+ Key takeaways
+
+- The array name is a constant pointer, so 'a++' isn't allowed.
+- 'a + 1' moves by one element, '&a + 1' moves by the whole array.
+- To copy arrays, loop element by element.
+- A string needs a '\0' at the end, so  "abcde" takes 6 bytes.
+- To loop over a string, check for '\0' instead of using sizeof.
+    - gets() is unsafe (removed in C11), so avoid it.
