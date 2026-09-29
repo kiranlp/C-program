@@ -10,17 +10,17 @@
 #include <stdio.h>
 int main()
 {
-    int a[5] = {10, 20, 30, 40, 50};      // 4 x 5 = 20 bytes
+    int a[5] = {10, 20, 30, 40, 50};       // 4 x 5 = 20 bytes
 
-    // a++;             // error
-    // a = a + 1;      // error
+    // a++;              // error
+    // a = a + 1;       // error
 
     printf("a = %u\n", a);
-    printf("&a[0] = %u\n", &a[0]);                               // same as a
+    printf("&a[0] = %u\n", &a[0]);                         // same as a
 
-    printf("a = %u  a+1 = %u\n", a, a + 1);                     // a+1 moves by 1 element (4 bytes): 1000 -> 1004
+    printf("a = %u  a+1 = %u\n", a, a + 1);               // a+1 moves by 1 element (4 bytes): 1000 -> 1004
 
-    printf("&a = %u  &a+1 = %u\n", &a, &a + 1);                // &a is the whole array's address, so &a+1 moves by 20 bytes: 1000 -> 1020
+    printf("&a = %u  &a+1 = %u\n", &a, &a + 1);           // &a is the whole array's address, so &a+1 moves by 20 bytes: 1000 -> 1020
 
     return 0;
 }
@@ -30,8 +30,9 @@ int main()
 
 |  a         | address of first element   | -        |
 |  a + 1     | address of next element    | 4 bytes  |
-|   &a       | address of whole array     | -        |
+|  &a        | address of whole array     | -        |
 |  &a + 1    | address after whole array  | 20 bytes |
+
 
  2. Accessing elements
 
@@ -94,7 +95,7 @@ printf("%d ", ++*p);   // 11 12 13 14 15  (increments the value at a[0], p doesn
 printf("%d ", *++p);   // 20 30 40 50 garbage  (moves p first, then reads; the last read goes past the array)
 
 
- char pointer
+---> char pointer
 
 Reading an int array through a char * gives one byte at a time.
 
@@ -125,7 +126,7 @@ printf("%c\n", a[1]);                 // B  (ASCII 66)
 
  5. Strings
 
-A string is a collection of chars **ended with `'\0'`**.
+A string is a collection of chars ended with '\0'.
 
 
 char s[] = "abcde";
@@ -141,7 +142,7 @@ char s2[10] = "abcde";
 printf("%d\n", sizeof(s2));           // 10 (abcde + '\0' + 4 more zeros)
 
 
-### What is '\0'?
+ What is \0 ?
 
 - Marks the 'end of a string'.
 - Acts as a separator between valid and invalid chars in the array.
@@ -159,8 +160,8 @@ printf("%d\n", sizeof(s2));           // 10 (abcde + '\0' + 4 more zeros)
  6. Scanning and printing strings
 
 - To print a string we need an array.
-- '%s' is used to scan and print.
-- '%s' always needs an - address (the array name is already one, so no '&').
+-  %s  is used to scan and print.
+-  %s  always needs an - address (the array name is already one, so no &).
 
 
 #include <stdio.h>
@@ -169,14 +170,14 @@ int main()
     char s[10];
     printf("enter a string:\n");
 
-    scanf("%s", s);                // only accepts one word (stops at space)
-    // scanf("%[^\n]", s);         // accepts the full line, including spaces
+    scanf("%s", s);                 // only accepts one word (stops at space)
+    // scanf("%[^\n]", s);          // accepts the full line, including spaces
 
     printf("String is: %s\n", s);
-    printf("%s\n", s + 2);        // prints from index 2 onwards
+    printf("%s\n", s + 2);         // prints from index 2 onwards
 
-    // gets(s);                   // avoid it
-    // puts(s);                  // prints a string
+    // gets(s);                    // avoid it
+    // puts(s);                   // prints a string
 
     return 0;
 }
@@ -221,11 +222,11 @@ abc
 a b c
 
 
- Key takeaways
+ Key 
 
 - The array name is a constant pointer, so 'a++' isn't allowed.
 - 'a + 1' moves by one element, '&a + 1' moves by the whole array.
 - To copy arrays, loop element by element.
 - A string needs a '\0' at the end, so  "abcde" takes 6 bytes.
 - To loop over a string, check for '\0' instead of using sizeof.
-    - gets() is unsafe (removed in C11), so avoid it.
+- gets() is unsafe (removed in C11), so avoid it.
