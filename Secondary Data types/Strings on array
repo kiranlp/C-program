@@ -1,0 +1,171 @@
+  C String Programs
+
+>  Topic: Character arrays & strings, implemented without <string.h>
+> Programs: Concatenate · Compare · Search · Delete
+
+Golden rule: a C string is a 'char' array ending with '\0'. Every loop below stops when it sees '\0' (which is '0', i.e. false).
+
+
+ 1. Concatenation two strings (add / merge)
+
+Logic: find the end of d, then copy 's' from there. Finish with '\0'.
+
+#include <stdio.h>
+int main(void)
+{
+    char s[10], d[20];
+    int ld, i, j;
+
+    printf("Enter src and dst string: ");
+    scanf("%9s %9s", s, d);
+    printf("Before: %s\n", d);
+
+    for (ld = 0; d[ld]; ld++);            // ld = length of d 
+
+    for (i = 0, j = ld; s[i]; i++, j++)
+        d[j] = s[i];
+    d[j] = '\0';
+
+    printf("After: %s\n", d);
+    return 0;
+}
+
+
+Memory view ( s = "ab",  d = "123",  ld = 3)
+
+| Step  | Operation      | d after step   |
+
+| 1     |  d[3] = s[0]   | 1 2 3 a        |
+| 2     |  d[4] = s[1]   | 1 2 3 a b      |
+| 3     |  d[5] =  \0    | 1 2 3 a b \0   |
+
+
+Output
+
+Enter src and dst string: ab 123
+Before: 123
+After: 123ab
+
+
+
+
+ 2. Compare two strings (compare all characters)
+
+Why not if (s1 == s2) ? It is - invalid for this purpose: it compares only the base addresses of the arrays, not their contents.
+
+#include <stdio.h>
+int main(void)
+{
+    char s1[10], s2[10];
+    int i;
+
+    printf("Enter two strings:\n");
+    scanf("%9s %9s", s1, s2);
+
+    for (i = 0; s1[i] && s2[i]; i++)
+        if (s1[i] != s2[i])
+            break;
+
+    if (s1[i] == s2[i])
+        printf("equal\n");
+    else
+        printf("different\n");
+    return 0;
+}
+
+
+| Input 1 | Input 2 | Output    | Reason                        |
+
+|  abcd   |  abcd   | equal     | both reach '\0' together      |
+|  Abcd   | abcd    | different | A != 'a' (case-sensitive)     |
+|  abcd   | abcdef  | different |  s1 ends, s2 still has 'e'    |
+
+
+ 3. Search a char in a string
+
+Logic: scan left to right; on the first match print and - return. If the loop ends, the char is absent.
+
+
+#include <stdio.h>
+int main(void)
+{
+    char s[20], ch;
+    int i;
+
+    printf("Enter a string:\n");
+    scanf("%19s", s);
+    printf("Enter a char:\n");
+    scanf(" %c", &ch);                    // space skips leftover newline 
+
+    for (i = 0; s[i]; i++) {
+        if (s[i] == ch) {
+            printf("char is present\n");
+            return 0;
+        }
+    }
+    printf("char is not present\n");
+    return 0;
+}
+
+
+Output
+
+Enter a string: embedded
+Enter a char: d
+char is present
+
+
+ 4. Delete a char from a string
+
+Logic: when s[i] == ch, shift everything after it one position left (s[j] = s[j+1]). Then do i-- so the same index is checked again (the next char may also match).
+
+
+#include <stdio.h>
+int main(void)
+{
+    char s[20], ch;
+    int i, j;
+
+    printf("Enter a string:\n");
+    scanf("%19s", s);
+    printf("Enter a char:\n");
+    scanf(" %c", &ch);
+    printf("Before: %s\n", s);
+
+    for (i = 0; s[i]; i++) {
+        if (s[i] == ch) {
+            for (j = i; s[j]; j++)
+                s[j] = s[j + 1];
+            i--;                          // check same index again 
+        }
+    }
+    printf("After: %s\n", s);
+    return 0;
+}
+
+
+Dry run: "embedded", delete 'e'
+
+| Pass           | String            |
+| Start          |  e m b e d d e d  |
+| Remove 1st   e |  m b e d d e d    |
+| Remove 2nd   e |  m b d d e d      |
+| Remove 3rd  e  |  m b d d d        |
+
+
+Output
+
+Enter string: embedded
+Enter char: e
+Before: embedded
+After: mbddd
+
+
+
+ Key Takeaways
+ 
+- Strings end with '\0'; loops use it as the stopping condition.
+- Never compare strings with ==; compare character by character.
+- Use %9s / %19s in scanf to avoid buffer overflow.
+- Delete in place = shift left + i--.
+- These same skills apply to UART buffers and command parsing in embedded firmware.
