@@ -1,0 +1,76 @@
+      String examples
+1)
+ * Delete all digits from a string, in place.
+ * Input : vector#123
+ * Output: vector#
+ 
+ * Idea: whenever s[i] is a digit, shift everything after it one step left
+ * (this also moves the '\0'), then do i--  so the character that just
+ * slid into position i gets checked too.
+
+
+#include <stdio.h>
+int main(void)
+{
+    char s[20];
+    int i, j;
+
+    printf("Enter a string: ");
+    scanf("%s", s);                 
+    printf("Before: %s\n", s);
+
+    for (i = 0; s[i]; i++)
+    {
+        if (s[i] >= '0' && s[i] <= '9')
+        {
+            for (j = i; s[j]; j++)
+                s[j] = s[j + 1];      // shift left, '\0' comes along 
+            i--;                      // re-check the new s[i] 
+        }
+    }
+
+    printf("After : %s\n", s);
+    return 0;
+}
+
+2)
+ * Insert one extra character into a string at a given index.
+ * Input : "ebedded", 'm', index = 1
+ * Output: "embedded"
+ 
+ * Idea: shift everything from `index` onwards one step RIGHT, starting
+ * from the end (so nothing gets overwritten), then drop the char in.
+ 
+ *   s[8] = s[7]   <- this one moves the '\0'
+ *   s[7] = s[6]
+ *   s[index] = ch
+
+ 
+#include <stdio.h>
+int main(void)
+{
+    char s[20], ch;
+    int index, len, i;
+
+    printf("Enter a string: ");
+    scanf("%18s", s);                 // leave room for one extra char + '\0' 
+    printf("Enter a char: ");
+    scanf(" %c", &ch);                // the space before %c skips the leftover '\n' 
+    printf("Enter index: ");
+    scanf("%d", &index);
+
+    for (len = 0; s[len]; len++)         // find the length 
+    if (index < 0 || index > len)
+    {
+        printf("Index out of range (0 to %d)\n", len);
+        return 1;
+    }
+
+    for (i = len + 1; i > index; i--)   // len+1 so the '\0' is shifted too 
+        s[i] = s[i - 1];
+
+    s[index] = ch;
+    printf("Output: %s\n", s);
+    return 0;
+}
+
