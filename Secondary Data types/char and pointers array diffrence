@@ -1,0 +1,43 @@
+ C Strings 
+
+- want to know what actually sits in memory, not just make the output look right.
+
+
+ What's inside
+
+|  File                   |  What I practised                                                                 |
+
+|  01_delete_digits.c     |  Removing digits from a string in place (  vector#123  →  vector#  )              |
+|  02_insert_char.c       |  Inserting a char at an index by shifting right ( ebedded + m @ 1 →  embedded )   |
+|  03_array_vs_pointer.c  |  char s[] = "hello"  vs  char *p = "hello"                                        |
+
+
+                                                          -----------   Array vs pointer    ------------
+
+
+|        Ex:                  |       char s[] = "hello";                      |                  const char *p = "HELLO                        |
+
+| Type                        |          char array                            |                     pointer array                              |
+| sizeof                      |      6 bytes (5 chars + `'\0'`)                |          8 bytes on 64-bit (4 on a 32-bit MCU)                 |
+| Name means                  |    base address of the array                   |       the address it holds (points to the literal)             |
+| Where the chars live        |   the array's own copy, on the stack           |   a read-only literal (code/`.rodata`, i.e. flash on an MCU)   |
+| s[1] = 'E' /  p[1] = 'e'    |             works                              |                 crashes (segfault)                             |
+| s = "mnop" / p = "MNOP"     |         compile error                          |                         works                                  |
+
+
+
+-->  s[i] is just *(s + i), and the same goes for p[i].
+
+ Things I got wrong first, or found interesting
+
+- Insert loop off-by-one.     In my first version the shift started at len - 1, so the '\0' never moved and the string had no end. It has to start at len + 1. Drawing the boxes on paper is what showed me.
+- i-- after deleting.         After a shift the next character slides into position i; without i--, two digits in a row (12) leave one behind.
+- scanf(" %c").               The space before %c skips the leftover newline, otherwise  %c reads '\n'.
+- %19s instead of %s.         Plain  %s can overflow the buffer. Small habit, but it matters in embedded work.
+- p = s; p[1] = 'e'; is fine. The crash only happens when - p points to a literal. What matters is what the pointer points at, not that it's a pointer.
+- Why const char * :          the compiler catches the illegal write for me instead of the hardware doing it at runtime.
+
+
+
+
+
