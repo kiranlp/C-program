@@ -1,9 +1,8 @@
- C  char and pointers array
+
+C  char array and char pointers 
 
 - want to know what actually sits in memory, not just make the output look right.
 
-
- What's inside
 
 |  File                   |  What I practised                                                                 |
 
@@ -12,7 +11,7 @@
 |  03_array_vs_pointer.c  |  char s[] = "hello"  vs  char *p = "hello"                                        |
 
 
-                                                          -----------   Array vs pointer    ------------
+                                                       -----------  char Array vs char pointer    ------------
 
 
 |        Ex:                  |       char s[] = "hello";                      |                  const char *p = "HELLO                        |
@@ -37,3 +36,55 @@
 - p = s; p[1] = 'e'; is fine. The crash only happens when - p points to a literal. What matters is what the pointer points at, not that it's a pointer.
 - Why const char * :          the compiler catches the illegal write for me instead of the hardware doing it at runtime.
 
+
+
+
+ - char array  vs  char pointer, both initialised with a string.
+ - Lines that are illegal / crash are commented out -- uncomment one
+ - at a time and see what the compiler or the OS says.
+
+
+#include <stdio.h>
+int main(void)
+{
+
+    char s[] = "hello";            // array: its own 6 bytes, a COPY of the literal 
+    const char *p = "HELLO";       // pointer: holds the address of a read-only literal 
+
+    printf("sizeof(s) = %zu\n", sizeof(s));     // 6 -> 'h','e','l','l','o','\0' 
+    printf("sizeof(p) = %zu\n", sizeof(p));     // 8 on 64-bit, 4 on a 32-bit MCU 
+
+
+     ---- char array ---- 
+
+    s[1] = 'E';                  // Valid: the array is my own writable copy 
+    printf("%s\n", s);           // hEllo 
+    s = p;                   // ERROR: array name is not a modifiable variable 
+    s = "mnop";              // ERROR: same reason 
+
+
+     ---- char pointer ---- 
+
+    printf("%s\n", p);           // HELLO 
+    p = "MNOP";                  // Valid: the pointer itself can point elsewhere 
+    printf("%s\n", p);           // MNOP 
+    p = s;                       // Valid: now it points at the writable array 
+    p = "HELLO";                 // Modifying a literal: segfault (undefined behaviour).
+    p[1] = 'e';             // error                      
+
+
+     ---- s[i] is just *(s+i) ---- 
+
+    printf("%c %c\n", s[1], *(s + 1));     // E E 
+    printf("%c %c\n", p[1], *(p + 1));     // E E  (p now points to s) 
+
+
+     ---- a string literal is itself an address ---- 
+
+    printf("%s\n", "Hello");             //  Hello 
+    printf("%s\n", "Hello" + 1);         //  ello  
+    printf("%c\n", *"Hello");            //  H     
+    printf("%c\n", "Hello"[1]);          //  e     
+
+    return 0;
+}
