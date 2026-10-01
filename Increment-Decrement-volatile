@@ -1,4 +1,4 @@
- C Programming Notes: Increment/Decrement, 'volatile', and Code Optimization
+ C Programming : Increment/Decrement, 'volatile', and Code Optimization
 
  1. Increment and Decrement Operators (++ / --)
 
@@ -7,17 +7,20 @@
 - The operand cannot be a const or an expression.
 - There are two ways to use increment/decrement:
 
-| Syntax | Meaning |
 
-| ++op | Pre-increment |
-| op++ | Post-increment |
-| --op | Pre-decrement |
-| op-- | Post-decrement |
+| Syntax | Meaning       |
+
+| ++op  | Pre-increment  |
+| op++  | Post-increment |
+| --op  | Pre-decrement  |
+| op--  | Post-decrement |
+
 
 - Increment operator increases the data by 1.
 - Decrement operator decreases the data by 1.
 - Pre-increment: the data is incremented first, then assigned.
 - Post-increment: the data is assigned first, then incremented.
+
 
  Example
 
@@ -41,29 +44,30 @@ int main()
 }
 
 
- Invalid Usage (compile errors)
 
+ Invalid Usage (compile errors)
 
 100++;        // Error — operand can't be a constant
 (i + j)++;    // Error — operand can't be an expression
 A++;          // Error — if A is declared const
 
 
+
  Efficiency Note (machine cycles)
 
 Incrementing by 1:
 
-++i;        // 1 machine cycle — efficient
-i = i + 1;  // load, add, store — 3 operations — less efficient
+++i;           // 1 machine cycle — efficient
+i = i + 1;    // load, add, store — 3 operations — less efficient
 
 
-Incrementing by a value **other than 1 (e.g. 5):
+Incrementing by a value other than 1 (e.g. 5):
 
 i = i + 5;                    // 1 operation — efficient
 ++i; ++i; ++i; ++i; ++i;      // 5 operations — inefficient
 
 
-> Takeaway: use ++i for increment-by-1, but use i = i + n for increment-by-n.
+> Takeaway : use ++i for increment-by-1, but use i = i + n for increment-by-n.
 
 
 
@@ -79,19 +83,21 @@ are faster than memory). This is a compiler optimization.
 volatile tells the compiler 'not' to do this optimization for a
 particular variable.
 
+
  1. What is volatile?
 
 volatile is a keyword / type qualifier.
 
- 2. What happens when we mark a variable `volatile`?
+
+ 2. What happens when we mark a variable 'volatile'?
 
 - It forces the compiler to read the variable from memory every time,
   instead of reusing a cached register value.
 - It tells the compiler: "don't apply any optimization to this
   variable."
 
- Example
 
+ Example
 
 #include<stdio.h>
 int main()
@@ -102,11 +108,11 @@ int main()
     // 10 10 10 10 10
 
     printf("%d %d %d %d %d\n", i++, i++, i++, i++, i++);
-    // 14 13 12 11 10   (args evaluated right-to-left in this compiler)
+    // 14 13 12 11 10    (args evaluated right-to-left in this compiler)
 
     printf("%d %d %d %d %d\n", ++i, ++i, ++i, ++i, ++i);
-    // with volatile:    15 14 13 12 11
-    // without volatile: 15 15 15 15 15
+    // with volatile:      15 14 13 12 11
+    // without volatile:   15 15 15 15 15
     return 0;
 }
 
@@ -116,13 +122,13 @@ int main()
 > behavior. Compiler-to-compiler behavior may differ, so the result is
 > unpredictable. Avoid writing code like this in real programs.
 
- const vs volatile
 
+ const vs volatile
 
 const int i = 10;
 
 // We can READ the data, but we CANNOT modify it.
-// Trying to modify a const variable gives a compiler error.
+// Trying to modify a const variable gives a compiler -error.
 
 
 - const → read-only, compiler-enforced no modification.
@@ -153,8 +159,8 @@ memory'.
 - Some 'smart compilers'- perform internal optimizations, e.g. they
   won't allocate memory for unused variables.
 
- Example: Eliminating a Temporary Variable
 
+ Example: Eliminating a Temporary Variable
 
 // Programmer writes:
 r = num % 10;
@@ -166,15 +172,13 @@ sum = sum + num % 10;
 
  Example: Constant Folding
 
-
 num = 10 + 20;   // if operands are constants, compiler pre-computes:
                   // num = 30 (computed at compile time, not runtime)
 
 
  Dead Code Removal
 
-Code that can 'never execute' is removed by the compiler.
-
+Code that can 'never execute', is removed by the compiler.
 
 main()
 {
