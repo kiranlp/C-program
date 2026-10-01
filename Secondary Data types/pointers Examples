@@ -3,17 +3,17 @@ C Pointers
 
  Contents
 
-1. [Swapping first and last byte using pointers]     (#1-swapping-first-and-last-byte-using-pointers)
-2. [Pre/post increment with pointers]             (#2-prepost-increment-with-pointers)
-3. [`const` with pointers]                    (#3-const-with-pointers)
-4. [Void pointer (generic pointer)]           (#4-void-pointer-generic-pointer)
-5. [NULL pointer]                            (#5-null-pointer)
-6. [Arithmetic operations on pointers]          (#6-arithmetic-operations-on-pointers)
+1. [Swapping first and last byte using pointers]     (1-swapping-first-and-last-byte-using-pointers)
+2. [Pre/post increment with pointers]                (2-prepost-increment-with-pointers)
+3. [`const` with pointers]                           (3-const-with-pointers)
+4. [Void pointer (generic pointer)]                  (4-void-pointer-generic-pointer)
+5. [NULL pointer]                                    (5-null-pointer)
+6. [Arithmetic operations on pointers]               (6-arithmetic-operations-on-pointers)
 
 
  1. Swapping first and last byte using pointers
 
-A `char *` moves one byte at a time, so it can be used to access the individual bytes of an `int`.
+A `char *` moves one byte at a time, so it can be used to access the individual bytes of an - int.
 
 
 #include <stdio.h>
@@ -57,10 +57,10 @@ p = &i;      // p holds 1000
 
 
 
- 3. `const` with pointers
+ 3. 'const' with pointers
 
 | Expression | Increments | `const int *p`   | `int *const p`   | `const int *const p`    |
-                              (value fixed)    (address fixed)     (address & value fixed)
+                             (value fixed)     (address fixed)    (address & value fixed)
                               
 | `*p++`     | address    | Valid            | Error            | Error                   |
 | `*++p`     | address    | Valid            | Error            | Error                   |
@@ -69,13 +69,14 @@ p = &i;      // p holds 1000
 | `++*p`     | value      | Error            | Valid            | Error                   |
 
 
-- `const int *p`: the value can't be changed through `p`, but `p` can point elsewhere.
-- `int *const p`: `p` can't point elsewhere, but the value can be changed.
-- `const int *const p`: neither the address nor the value can be changed.
+
+-  const int *p : the value can't be changed through 'p', but 'p' can point elsewhere.
+-  int *const p : 'p' can't point elsewhere, but the value can be changed.
+-  const int *const p: neither the address nor the value can be changed.
 
  4. Void pointer (generic pointer)
 
-A `void *` has no specific data type, but it can be used like a pointer of any type. That is why it is called a 'generic pointer'.
+A  - void * has no specific data type, but it can be used like a pointer of any type. That is why it is called a 'generic pointer'.
 
 > Note: At the time of dereferencing, a void pointer must be explicitly type converted (cast), otherwise it gives a compile error.
 
@@ -90,26 +91,26 @@ int main()
     void *p;
 
     p = &i;
-    printf("%d\n", *(int *)p);     // 10
+    printf("%d\n", *(int *)p);      // 10
 
     p = &ch;
-    printf("%c\n", *(char *)p);    // a
+    printf("%c\n", *(char *)p);     // a
 
     p = &f;
-    printf("%f\n", *(float *)p);   // 23.500000
+    printf("%f\n", *(float *)p);    // 23.500000
 
     return 0;
 }
 
 
-In `*(float *)p`, the `(float *)` part is the 'type conversion' and the leading `*` is the 'dereference'.
+In  *(float *)p, the  (float *) part is the 'type conversion' and the leading '*' is the 'dereference'.
 
 
  5. NULL pointer
 
-When a pointer is holding `0` as its address, it is called a 'NULL pointer'.
+When a pointer is holding  0 as its address, it is called a 'NULL pointer'.
 
-Application: a NULL pointer is used to avoid **wild pointers** and 'dangling pointers'.
+Application: a NULL pointer is used to avoid  'Wild pointers' and 'dangling pointers'.
 
 
 int main()
@@ -120,7 +121,7 @@ int main()
 }
 
 
-As per the C programming standard, whenever our work with a pointer is completed, make it `NULL`.
+As per the C programming standard, whenever our work with a pointer is completed, make it - NULL.
 
 
  6. Arithmetic operations on pointers
@@ -131,12 +132,12 @@ int *q = (int *)1020;
 printf("%ld\n", q - p);   // 5
 
 
-The memory difference between the two addresses is `1020 - 1000 = 20` bytes. Since `int` is 4 bytes, `20 / 4 = 5`.
+The memory difference between the two addresses is  1020 - 1000 = 20  bytes. Since `int` is 4 bytes,  20 / 4 = 5.
 
-(Side note from the notes: if `q` were `1015`, the result would be `15 / 4 = 3`, truncated.)
+( if  q were  1015, the result would be  15 / 4 = 3, truncated.)
+
 
 Adding, multiplying or dividing two pointers is not allowed:
-
 
 printf("%ld\n", q + p);   // error
 printf("%ld\n", q * p);   // error
