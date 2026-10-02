@@ -4,6 +4,7 @@ COMPILATION steps-
                   o/p= .i    - removes comments
                              - macroreplacement
                              - conditional compilation.
+
 2) Translator  : i/p= .i     - Syntax errors
                  o/p= .s     - convert code to ASM file
 
@@ -14,7 +15,9 @@ COMPILATION steps-
               o/p= .a.out    - links with library( defnition errors)
 
 
-ERRORS  -           compile time errors   and   runtime errors
-                    preprocessor                 segmentation fault
-                    Translator                   bus error
-                    Linker                       floating point exception error.
+
+ERRORS  -         |    compile time errors           |     and     |     runtime errors                              |
+
+                    preprocessor (declaration errors)                 segmentation fault (unauthorized memory acces)
+                    Translator  (syntax errors)                       bus error
+                    Linker  (defnition errors)                        floating point exception error.
