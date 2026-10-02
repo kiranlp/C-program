@@ -1,4 +1,4 @@
- C Programming Notes — Loops, Return, and Switch-Case
+ C Programming  — Loops, Return, and Switch-Case
 
  1. Pattern Program (Right Triangle of *)
 
@@ -79,7 +79,7 @@ Trace — normal while loop (++i, pre-increment, body runs):
 | 0        | 0<=2 ✓       | prints 1 | 1 |
 | 1        | 1<=2 ✓       | prints 2 | 2 |
 | 2        | 2<=2 ✓       | prints 3 | 3 |
-| 3        | 3<=2 ✗       | exits | 4 |
+| 3        | 3<=2 ✗       | exits    | 4 |
 
 Key distinction:
 - Dummy while loop → condition itself does the work (via i++), body is empty (just ;).
@@ -119,22 +119,20 @@ Output:
 3 1
 
 
-
-
  3. for Loop vs while Loop
 
 Difference between for loop and while loop:
 
 | For Loop -
-| At a time of writing the program, if we found: initialization, condition, increment/decrement → fixed 
-| We need to select 'for' loop.
-| it can be empty. ()
+- At a time of writing the program, if we found: initialization, condition, increment/decrement → fixed 
+- We need to select 'for' loop.
+- it can be empty. ()
 
 
 | While Loop -
-| At a time of writing the program, if we found: initialization, condition, increment/decrement → not fixed 
-| May change, so we need to select 'while' loop.
-| it cannot be empty () loop
+- At a time of writing the program, if we found: initialization, condition, increment/decrement → not fixed 
+- May change, so we need to select 'while' loop.
+- it cannot be empty () loop
 
 
 Example:
@@ -171,7 +169,6 @@ void main()
 }
 
 Output: Hello World.
-
 
 
  5. Switch-Case
@@ -224,11 +221,11 @@ int main()
 }
 
 
- Switch Trace Examples
+ Switch case Examples
 
 switch (1 + 0)   // printf("one");   // Valid
 
-case 'a': printf("one"); break;   // char 'a' = 97 → valid, works like int
+case 'a': printf("one"); break;     // char 'a' = 97 → valid, works like int
 case 9.7: printf("three"); break;   // Error — case label must be int, not float
 
 
@@ -253,6 +250,7 @@ Ans: if n = 4 → % p = not one two three
  Example: Vowel Checker
 
 // WAP to scan one char from user and print char is vowel or not.
+
 #include <stdio.h>
 int main()
 {
