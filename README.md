@@ -44,8 +44,6 @@ Embedded C
 
 🧠 Problem Solving
 
-  Logic first — memorization last.»
-
 - 🔢 Number & digit problems
 - 🔁 Loops & pattern problems
 - 📊 Arrays & strings
@@ -86,7 +84,7 @@ Build a strong C programming foundation and develop the ability to write, unders
 
 
 
-⭐ Practicing consistently. Understanding the logic.
+⭐ Practicing and building consistently.
 
  Author
-Kiran —  ECE Graduate (Embedded Systems & VLSI), BIET, 
+Kiran —  ECE Graduate (Embedded Systems & VLSI). 
