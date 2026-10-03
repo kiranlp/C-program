@@ -1,11 +1,11 @@
-                     Secondary Data types
-                                
-                               
-    Derived data types                        User defined Data types
-       Pointers                                       Structure
-        Array                                         typedef
-                                                      union
-                                                      Enum
+
+                       Secondary Data types
+                                     
+    Derived data types                   User defined Data types
+       Pointers                                 Structure
+        Array                                    typedef
+                                                  union
+                                                  Enum
 
 
 Pointers (Secondary / Derived Data Types)
@@ -27,7 +27,7 @@ char *q;  // q is a character pointer -> q is a variable of type "pointer to cha
  Wild Pointer
 
 int i, j;
-int *p;   // wild pointer
+int *p;   // wild pointer ( declaring without initialization)
 
 When a pointer is pointing to an unknown/garbage location (address), it is called a wild pointer.
 
@@ -57,7 +57,6 @@ Format specifiers:
 - %p → gives the hexadecimal value (address)
 
 
-
  Modifying a Variable: Directly vs Indirectly
 
 int main() {
@@ -66,21 +65,20 @@ int main() {
 
     i = 100;
     p = &i;
-    printf("i=%d  *p=%d\n", i, *p);   // i=100  *p=100
+    printf("i=%d  *p=%d\n", i, *p);    // i=100  *p=100
 
-    i = 150;                          // modify directly
-    printf("i=%d  *p=%d\n", i, *p);   // i=150  *p=150
+    i = 150;                           // modify directly
+    printf("i=%d  *p=%d\n", i, *p);    // i=150  *p=150
 
-    *p = 200;                         // modify indirectly (through pointer)
-    printf("i=%d  *p=%d\n", i, *p);   // i=200  *p=200
+    *p = 200;                          // modify indirectly (through pointer)
+    printf("i=%d  *p=%d\n", i, *p);    // i=200  *p=200
 
     return 0;
 }
 
 
 
-
- sizeof() a Pointer
+--> sizeof() a Pointer
 
 int main() {
     int i;
@@ -100,6 +98,5 @@ int main() {
 
     return 0;
 }
-
 
 > Size of a pointer is always 8 bytes (on a 64-bit system), regardless of the data type it points to — because it only needs to store a memory address, not the value itself.
