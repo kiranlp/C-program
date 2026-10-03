@@ -1,15 +1,12 @@
- C Programming — Control Statements 
 
-
-
+C Programming — Control Statements 
 
  2. if Statement
 
 Q: What is if?
 if is one of the non-iterative, conditional control statements.
 
-Syntax
-
+Syntax:
 
 if (exp)
 {
@@ -19,14 +16,12 @@ if (exp)
 }
 
 
-
 if (exp)
 {
     st1;   // only the first statement (st1) is dependent on if
 }
 st2;
 st3;       // independent statements
-
 
 
 if (exp);  // "dummy if" — if statement ends here (note the semicolon)
