@@ -1,0 +1,156 @@
+ Functions in C
+
+ Basics of Functions
+
+ Definition
+- A function is a block where program code is written.
+- A function is a set of instructions wrapped together to perform a specific task.
+
+ Benefits of Functions
+1. Divide and conquer
+   - Manageable program development
+   - Construct a program from small pieces / components
+2. Software reusability
+   - Use existing functions as building blocks for new programs
+   - Abstraction: hide internal details (library functions)
+3. Code length can be reduced
+4. Debugging becomes easy
+
+
+ Types of Functions
+C has two types of functions:
+1. Predefined / library / compiler-supported functions.
+2. User-defined functions.
+
+ User-Defined Functions
+- Users create their own functions to perform a specific task of a program.
+- Use of functions brings - modularity and improves code readability.
+
+ To create and use functions, you must know 3 things
+1. Function declaration
+2. Function call
+3. Function definition
+
+
+ Declaration, Call, Definition and Syntax
+
+--> What is function declaration?
+By declaring a function, we inform the compiler:
+- the name of the function
+- what arguments it takes
+- what it returns
+
+--> What is function definition?
+The definition of a function contains the logic behind the task.
+
+--> What is function call?
+By calling a function, we ask it to execute its logic.
+
+
+ Syntax:
+ 
+return_type  function_name(arguments);
+
+
+ Program structure
+
+declaration;
+int main()
+{
+    call;
+}
+definition
+{
+  logic;
+}
+
+
+ 4 ways to design a function
+
+|   | Type                         | Syntax                             | Example                 |
+
+| 1 | No arguments, no return type |  void fun_name(void);              |  void abc(void);        |
+| 2 | Arguments, no return type    |  void fun_name(arguments);         |  void def(int, char);   |
+| 3 | No arguments, return type    |  return_type fun_name(void);       |  int mno(void);         |
+| 4 | Arguments and return type    |  return_type fun_name(arguments);  |  int sum(int a, int b); |
+
+
+1) No arguments, no return type
+- Takes no arguments and returns nothing to the calling function.
+- 'abc' takes nothing as argument and returns nothing.
+
+2) Arguments but no return type
+- Takes one or more arguments and does not return anything to the calling function.
+- 'def' takes 2 arguments (int and char) and returns nothing.
+
+3) Return type but no arguments
+- Takes no arguments and returns something to the calling function.
+- 'mno' takes nothing as argument and returns int.
+
+4) Arguments with return type
+- Takes arguments and returns something to the calling function.
+- 'sum' takes 2 arguments (int and int) and returns int.
+
+
+ Programs and Arguments
+ 
+Program 1: Print the binary of an int
+
+#include <stdio.h>
+
+void binary_print(int);   // declaration
+
+int main()
+{
+    int num;
+    printf("Enter int num: \n");
+    scanf("%d", &num);
+    binary_print(num);    // call
+    printf("\n");
+    return 0;
+}
+
+void binary_print(int n)  // definition
+{
+    int pos;
+    for (pos = 31; pos >= 0; pos--)
+        printf("%d", (n >> pos) & 1);
+}
+
+Output for  10: 00000000000000000000000000001010
+
+
+ Actual and formal arguments
+- Actual argument: the data we pass at the time of calling the function (num).
+- Formal argument: the variable that catches the data in the function (n).
+
+ Program 2: Count the set bits of an int
+ 
+Design a function that counts the set bits of an int number and returns the count.
+
+#include <stdio.h>
+
+int set_bit(int);         // declaration
+
+int main()
+{
+    int num;
+    printf("Enter int num: \n");
+    scanf("%d", &num);
+    printf("Set bit count = %d\n", set_bit(num));   // call
+    return 0;
+}
+
+int set_bit(int n)        // definition
+{
+    int c = 0, pos;
+    for (pos = 31; pos >= 0; pos--)
+    {
+        if ((n >> pos) & 1)
+            c++;
+    }
+    return c;             // return count
+}
+
+Output for  10:  Set bit count = 2
+
