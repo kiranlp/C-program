@@ -1,7 +1,7 @@
 
 C Programming — Control Statements 
 
- 2. if Statement
+2. if Statement
 
 Q: What is if?
 if is one of the non-iterative, conditional control statements.
@@ -42,17 +42,16 @@ if (exp);  // "dummy if" — if statement ends here (note the semicolon)
  3. Is if / else mandatory?
 
 | Part | Mandatory? |
-| if | Yes |
-| else | No |
+| if   |   Yes  
+| else |   No  
 
 
- 4. Practice Program — Scan and Print a Character
+4. Practice Program — Scan and Print a Character
 
 WAP to scan one char from user, and print the char and its ASCII value.
 
 
 #include <stdio.h>
-
 int main()
 {
     char ch;
@@ -71,15 +70,14 @@ char: a
 ascii: 97
 
 
-// ASCII range check example
-
+ ASCII range check example
 
 if (ch >= 'a' && ch <= 'z')
     printf("char: %c ascii: %d \n", ch, ch);
 
 
 
-// 5. Practice Program — Student Result (Grading with 'else if')
+ 5. Practice Program — Student Result (Grading with 'else if')
 
 WAP to scan one student's total marks and display the result of the student.
 
@@ -106,7 +104,7 @@ else
 
 
 
-// 6. Nested 'if'
+ 6. Nested 'if'
 
 Nested if = an 'if' statement within another 'if' statement.
 
@@ -129,7 +127,7 @@ else
 }
 
 
- Syntax (style 2 — deep nesting)
+Syntax (style 2 — deep nesting)
 
 
 if (exp1)
@@ -150,7 +148,7 @@ if (exp1)
 
 
 
-// 7. 'goto' Statement
+ 7. 'goto' Statement
 
 'goto' is one of the non-iterative, unconditional control statements.
 
@@ -169,7 +167,6 @@ if (exp1)
 
 
 #include <stdio.h>
-
 int main()
 {
     printf("Hello... \n");
@@ -202,13 +199,11 @@ l:                              // setting the label
 Useful shortcut: 'Ctrl + C' → to stop execution (e.g. of an infinite loop in the terminal).
 
 
+ 8. Practice Program — Multiplication Table using 'goto'
 
-// 8. Practice Program — Multiplication Table using 'goto'
-
- WAP  to print the multiplication table for a given number using 'goto'.
+WAP  to print the multiplication table for a given number using 'goto'.
 
 Example:
-
 Input:  num = 5
 Output: 5 * 1  = 5
         5 * 2  = 10
@@ -216,9 +211,7 @@ Output: 5 * 1  = 5
         5 * 10 = 50
 
 
-
 #include <stdio.h>
-
 int main()
 {
     int num, i;
@@ -233,7 +226,5 @@ l:  printf("%d * %d = %d \n", num, i, num * i);
 
     return 0;
 }
-
-
 
 
