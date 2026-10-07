@@ -1,0 +1,127 @@
+
+ Default Return Type and Prime Check
+ 
+-->What happens if we don't mention any return type while designing a function?
+The compiler considers the default return type as int (integer).
+
+Example: set_bit(num) with no type written is treated as int set_bit(num).
+(Modern C compilers warn about this, so always write the return type.)
+
+Program: Check whether a number is prime
+Design a function to check whether a number is prime or not. If prime, the function returns 1, otherwise 0.
+
+#include <stdio.h>
+int prime_check(int n)
+{
+    int i;
+    for (i = 2; i < n; i++)
+    {
+        if (n % i == 0)          // user defined function
+            break;
+    }
+    if (n == i)
+        return 1;
+    else
+        return 0;
+}
+
+int main()
+{
+    int num, r;
+    printf("Enter int num: ");
+    scanf("%d", &num);
+
+    r = prime_check(num);            // main function
+    if (r)
+        printf("prime\n");
+    else
+        printf("not prime\n");
+
+    return 0;
+}
+
+
+Two ways to use the returned value
+
+Store it in a variable: r = prime_check(num); if (r) ...
+Call it directly in the condition: if (prime_check(num)) ...
+How it works: the loop stops early (break) if i divides n. If no divisor is found, the loop ends with i == n, so the number is prime.
+
+Call by Value 
+ 
+Program: Swap two numbers (call by value)
+
+What is call by value?
+- At the time of calling the function, we supply the value as the actual argument.
+Whatever changes we make to the formal argument will not modify the actual argument.
+
+
+#include <stdio.h>
+void swap_num(int, int);
+int main()
+{
+    int i = 10, j = 20;
+    printf("Before: i=%d j=%d\n", i, j);
+    swap_num(i, j);
+    printf("After: i=%d j=%d\n", i, j);
+    return 0;
+}
+
+void swap_num(int a, int b)
+{
+    int t;
+    t = a;
+    a = b;
+    b = t;
+}
+ans: no output
+
+Answer
+Internally it swaps the numbers (a and b), but we can't see it in main().
+Before: i=10 j=20
+After:  i=10 j=20
+
+
+Call by Reference
+
+Program: Swap two numbers (call by reference)
+
+What is call by reference?
+- At the time of calling the function, we supply the address and catch it using pointers in the function.
+When we modify the formal argument, indirectly the actual argument will also be modified.
+
+#include <stdio.h>
+void swap_num(int *, int *);   // user function declaration
+
+int main()
+{
+    int i = 10, j = 20;
+    printf("Before: i=%d j=%d\n", i, j);
+    swap_num(&i, &j);
+    printf("After: i=%d j=%d\n", i, j);
+    return 0;
+}
+
+void swap_num(int *a, int *b)
+{
+    int t;
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+
+
+swap_num(1000, 2000) passes the addresses, and *a / *b reach the original i and j.
+Answer
+Before: i=10 j=20
+After:  i=20 j=10
+
+
+ 
+                          Call by value          vs              call by reference
+
+                          Call by value                        Call by reference/address
+What is passed:              Value                                  Address
+Formal argument:          Normal variable                           Pointer
+Original changed?:            No                                      Yes
+
