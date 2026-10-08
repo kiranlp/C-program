@@ -1,10 +1,9 @@
 
  String Based Predefined Library Functions in C
 
-#include <string.h>
+#include <string.h>         // header file (for strings)
 
- Function List:
-
+Function List:
 |No.|  Function   |    Purpose                             |
 
 | 1 |  strlen()   | Calculate length of a string           |
