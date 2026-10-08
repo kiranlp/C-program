@@ -168,7 +168,7 @@ char *strchr(const char *s, int c);
 char *strrchr(const char *s, int c);
 
 
- Difference between `strchr()` and `strrchr()`
+ Difference between  strchr()  and  strrchr()
 
 | Function   |  Returns                                                         |
 | strchr()   | Address of the  -first occurrence of the character in the string |
@@ -177,7 +177,7 @@ char *strrchr(const char *s, int c);
 - In both functions, if the character is  not found, they return  0 (NULL).
 
 
- Illustration
+ Illustration:
 
 ch = 'e'
 
