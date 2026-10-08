@@ -3,7 +3,7 @@
 
 #include <string.h>
 
- Function List
+ Function List:
 
 |No.|  Function   |    Purpose                             |
 
@@ -46,15 +46,13 @@ size_t strlen(const char *s);     // prototype or declaration
  Points to Remember
 
 - Format specifier for  strlen() is  %ld ( %zu  is the portable one for  size_t).
--  strlen() does  not count the `'\0'` character, but `sizeof()` **does** include it.
-- Using `%d` gives a warning, but it still prints the output.
+-  strlen() does  not count the  '\0' character, but  sizeof()  does include it.
+- Using  %d gives a warning, but it still prints the output.
 
-### Example
+ Example:
 
-```c
 #include <stdio.h>
 #include <string.h>
-
 int main()
 {
     char s[] = "embedded";
@@ -66,39 +64,33 @@ int main()
     // printf("%d\n", strlen("abcd"));      // 4
     return 0;
 }
-```
 
----
+ 2.  strcpy() and  strncpy()
+       -- Copy a string.
 
-## 2. `strcpy()` and `strncpy()`
+ Synopsis:
 
-Copy a string.
-
-### Synopsis
-
-```c
 char *strcpy(char *restrict dst, const char *restrict src);
 char *strncpy(char dst[restrict .dsize], const char *restrict src, size_t dsize);
-```
 
-- Takes **two arguments** (`strcpy`): 1st is the **destination**, 2nd is the **source**.
-- Copies source to destination and returns the destination **base address**.
 
-> **Note:** When `*` is written in the return type, the function returns an address.
+- Takes two arguments (strcpy): 1st is the 'destination', 2nd is the 'source'.
+- Copies source to destination and returns the destination 'base address'.
 
-### Difference between `strcpy()` and `strncpy()`
+> Note: When  * is written in the - return type, the function returns an address.
 
-| Function | Behaviour |
-|----------|-----------|
-| `strcpy()` | Copies the **entire source** to the destination |
-| `strncpy()` | Copies the **first n bytes** from source to destination, based on the **3rd argument** |
+ Difference between  strcpy() and  strncpy()
 
-### Example
 
-```c
+| Function    |   Behaviour                                                                          |
+|  strcpy()   | Copies the 'entire source' to the destination                                        |
+|  strncpy()  | Copies the - first n bytes from source to destination, based on the  3rd argument  |
+
+
+ Example:
+
 #include <stdio.h>
 #include <string.h>
-
 int main()
 {
     char s[] = "embedded", d1[10], d2[10];
@@ -108,111 +100,95 @@ int main()
 
     return 0;
 }
-```
 
-> ⚠️ **Caution:** `strncpy()` does **not** add `'\0'` automatically if `n` is less than or equal to the source length. Since `d2` is uninitialized here, the output can contain junk. Safer: set `d2[5] = '\0';` after copying, or initialize with `char d2[10] = {0};`.
+> ⚠️ note:  strncpy()  does  not add '\0' automatically if  n is less than or equal to the source length. Since  d2 is uninitialized here, the output can contain junk. 
+  
 
----
+ 3. strcat() and strncat()
+       -- Concatenate (merge) two strings.
 
-## 3. `strcat()` and `strncat()`
+Synopsis:
 
-Concatenate (merge) two strings.
-
-### Synopsis
-
-```c
 char *strcat(char *restrict dst, const char *restrict src);
 char *strncat(char *restrict dst, const char src[restrict .ssize], size_t ssize);
-```
 
-> **Note:** The source is added at the **end of the destination**. It returns the destination base address.
 
-### Example
+> Note: The source is added at the  - end of the destination. It returns the destination base address.
 
-```c
+ Example:
+
 char s[] = "abcd", d1[10] = "1234", d2[10] = "1234";
 
 printf("%s\n", strcat(d1, s));       // 1234abcd
 printf("%s\n", strncat(d2, s, 2));   // 1234ab
-```
 
-> **Note:** Here `'\0'` will be there (the destination was initialized), that's why no junk value is printed.
 
----
+> Note: Here '\0' will be there (the destination was initialized), that's why no junk value is printed.
 
-## 4. `strcmp()` and `strncmp()`
 
-Compare two strings.
+ 4. strcmp() and strncmp()
+    ---Compare two strings.
 
-### Synopsis
+ Synopsis:
 
-```c
 #include <string.h>
 
 int strcmp(const char *s1, const char *s2);
 int strncmp(const char s1[.n], const char s2[.n], size_t n);
-```
 
-### Return Value
 
-| Condition | Returns |
-|-----------|---------|
-| `s1 == s2` | `0` |
-| `s1 > s2` | `> 0` (positive) |
-| `s1 < s2` | `< 0` (negative) |
+ Return Value:
 
-### Example
+| Condition | Returns          |
+|  s1 == s2 |   0              |
+|  s1 > s2  |  > 0 (positive)  |
+|  s1 < s2  |  < 0  (negative) |
 
-```c
+
+ Example:
+
 char s1[] = "abc123", s2[] = "abcd23";
-//                ^ 49 ('1')        ^ 100 ('d')
+                ^ 49 (1)        ^ 100 (d)
 
-printf("%d\n", strcmp(s1, s2));       // -51  (49 - 100)
-printf("%d\n", strncmp(s1, s2, 3));   // 0    (first 3 chars "abc" are same)
-```
+printf("%d\n", strcmp(s1, s2));        // -51  (49 - 100)
+printf("%d\n", strncmp(s1, s2, 3));   //  0    (first 3 chars "abc" are same)
 
-> **Note:** The comparison stops at the first differing character and uses its ASCII values. The exact magnitude of the result can vary by compiler/library, but the **sign** is always reliable.
 
----
+> Note: The comparison stops at the first differing character and uses its ASCII values. The exact magnitude of the result can vary by compiler/library, but the  sign is always reliable.
 
-## 5. `strchr()` and `strrchr()`
 
-Locate (search) a character in a string.
+ 5. strchr() and  strrchr()
+       ---Locate (search) a character in a string.
 
-### Synopsis
+ Synopsis:
 
-```c
 #include <string.h>
 
 char *strchr(const char *s, int c);
 char *strrchr(const char *s, int c);
-```
 
-### Difference between `strchr()` and `strrchr()`
 
-| Function | Returns |
-|----------|---------|
-| `strchr()` | Address of the **first** occurrence of the character in the string |
-| `strrchr()` | Address of the **last** occurrence of the character in the string |
+ Difference between `strchr()` and `strrchr()`
 
-- In both functions, if the character is **not found**, they return `0` (`NULL`).
+| Function   |  Returns                                                         |
+| strchr()   | Address of the  -first occurrence of the character in the string |
+| strrchr()  | Address of the  -last occurrence of the character in the string  |
 
-### Illustration
+- In both functions, if the character is  not found, they return  0 (NULL).
 
-```
+
+ Illustration
+
 ch = 'e'
 
 index:     0   1   2   3   4   5   6   7   8
-         +---+---+---+---+---+---+---+---+----+
+         +---+---+---+---+---+---+---+---+----+  
 s =      | e | M | b | e | d | d | e | d | \0 |
          +---+---+---+---+---+---+---+---+----+
-           ^                       ^
+    -----> ^                       ^      <----
         strchr()                strrchr()
         (first 'e')             (last 'e')
-```
 
-Both return the **address** of the matched character.
 
----
+Both return the - address of the matched character.
 
-## 6. `strstr()` *(to be added)*
