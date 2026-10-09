@@ -196,7 +196,7 @@ Both return the - address of the matched character.
  library string functions (`strchr`, `strrchr`, `strstr`) and writing user-defined functions (`my_strlen`, `my_strchr`, `my_strcpy`).
 
 
- 1. strchr() and strrchr(): 
+ 6. strchr() and strrchr(): 
     - locate a character
 
 
@@ -209,10 +209,9 @@ char *strrchr(const char *s, int c);  // last occurrence (right to left)
 - If the character is not found, they return `NULL`.
 - Printing the result with `%s` prints the string **from that address onwards**.
 
-### Example
+Example:
 
-```c
-char s[] = "embedded";   // suppose s is stored at address 100
+char s[] = "embedded";     // suppose s is stored at address 100
 char ch = 'e';
 
 printf("%u\n", s);                // 100
@@ -220,23 +219,21 @@ printf("%s\n", strchr(s, ch));    // embedded
 printf("%u\n", strchr(s, ch));    // 100
 printf("%u\n", strrchr(s, ch));   // 106
 printf("%s\n", strrchr(s, ch));   // ed
-```
+
 
 Memory layout:
 
-| Index   | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   |
-|---------|-----|-----|-----|-----|-----|-----|-----|-----|
-| Char    | e   | m   | b   | e   | d   | d   | e   | d   |
-| Address | 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 |
+ Index     0     1     2     3     4     5     6     7    
+ Char    | e   | m   | b   | e   | d   | d   | e   | d   |
+ Address  100   101   102   103   104   105   106   107 
 
-- `strchr` scans from the left and stops at the first `'e'` (address 100).
-- `strrchr` scans from the right and stops at the last `'e'` (address 106).
+-  strchr - scans from the left and stops at the first  'e' (address 100).
+-  strrchr - scans from the right and stops at the last  'e' (address 106).
 
-If `ch = 'b'`, then `strchr = 102` and `strrchr = 102`. There is only one `'b'`, so both give the same address.
+If ch = 'b', then  strchr = 102 and  strrchr = 102. There is only -one 'b', so both give the same address.
 
----
 
-## 2. `strstr()`: locate a substring
+ 7. strstr(): locate a substring
 
 ```c
 #include <string.h>
