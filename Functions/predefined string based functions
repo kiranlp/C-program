@@ -256,12 +256,10 @@ printf("%s\n", strstr(m, s));     // bedded  (observe specifier (%s))
 "be" starts at index 2 (address 102), so %s prints from there: 'bedded'.
 
 
-## 3. WAP to design user-defined `strlen()`
+ WAP to design user-defined - strlen()
 
-```c
 #include <stdio.h>
-
-int my_strlen(const char *);
+int my_strlen(const char *);  // userdefined function
 
 int main()
 {
@@ -278,18 +276,15 @@ int my_strlen(const char *p)
     for (i = 0; p[i]; i++);   // loop stops when p[i] is '\0'
     return i;
 }
-```
 
-Input: `embedded` → Output: `8`
 
----
+Input: 'embedded' → Output: 8
 
-## 4. WAP to design user-defined `strchr()`
+ 
+## WAP to design user-defined - strchr()
 
-```c
 #include <stdio.h>
-
-char *my_strchr(const char *, char);
+char *my_strchr(const char *, char);    // userdefined func
 
 int main()
 {
@@ -319,26 +314,23 @@ char *my_strchr(const char *p, char ch)
     }
     return 0;                       // not found → NULL
 }
-```
 
-Trace for `"embedded"` with `ch = 'b'`: `i = 0` (`e`), `i = 1` (`m`), `i = 2` (`b`, match) → returns address 102.
 
----
+Trace for "embedded" with  ch = 'b':  i = 0 (e), i = 1 (m), i = 2 (b, match) → returns address 102.
 
-## 5. WAP to design user-defined `strcpy()`
+
+## WAP to design user-defined - strcpy()
 
 Library prototype:
 
-```c
 char *strcpy(char *restrict dest, const char *restrict src);
-```
 
-User-defined version (returns `void`):
 
-```c
+User-defined version (returns 'void'):
+
+
 #include <stdio.h>
-
-void my_strcpy(const char *, char *);   // (source, dest)
+void my_strcpy(const char *, char *);     // (source, dest)
 
 int main()
 {
@@ -351,23 +343,20 @@ int main()
     printf("%s\n", d);
     return 0;
 }
-```
 
-### Method 1: array indexing
 
-```c
+Method 1: array indexing
+
 void my_strcpy(const char *s, char *d)
 {
     int i;
     for (i = 0; s[i]; i++)
         d[i] = s[i];
-    d[i] = '\0';        // terminate the destination string
+    d[i] = '\0';          // terminate the destination string
 }
-```
 
-### Method 2: pointers
+Method 2: pointers
 
-```c
 void my_strcpy(const char *s, char *d)
 {
     while (*s)
@@ -376,20 +365,18 @@ void my_strcpy(const char *s, char *d)
     }
     *d = '\0';          // terminate the destination string
 }
-```
 
-> Always add `'\0'` at the end of the destination. The loop stops *before* copying the null character.
 
----
+> Always add '\0' at the end of the destination. The loop stops - before copying the null character.
 
-## Quick summary
 
-| Function      | Purpose                         | Returns                          |
-|---------------|---------------------------------|----------------------------------|
-| `strchr`      | First occurrence of a character | Address, or `NULL`               |
-| `strrchr`     | Last occurrence of a character  | Address, or `NULL`               |
-| `strstr`      | Find a substring                | Address of substring, or `NULL`  |
-| `my_strlen`   | Length of a string              | `int`                            |
-| `my_strchr`   | Custom `strchr`                 | Address, or `0`                  |
-| `my_strcpy`   | Copy source to destination      | `void`                           |
+ Quick summary:
+
+  Function       Purpose                           Returns                          
+|  strchr      | First occurrence of a character | Address, or  NULL                |
+|  strrchr     | Last occurrence of a character  | Address, or  NULL                |
+|  strstr      | Find a substring                | Address of substring, or  NULL   |
+|  my_strlen   | Length of a string              |  int                             |
+|  my_strchr   | Custom  strchr                  | Address, or  0                   |
+|  my_strcpy   | Copy source to destination      |  void                            |
 
