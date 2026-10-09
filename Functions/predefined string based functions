@@ -191,3 +191,212 @@ s =      | e | M | b | e | d | d | e | d | \0 |
 
 Both return the - address of the matched character.
 
+
+
+ library string functions (`strchr`, `strrchr`, `strstr`) and writing user-defined functions (`my_strlen`, `my_strchr`, `my_strcpy`).
+
+
+ 1. strchr() and strrchr(): 
+    - locate a character
+
+
+#include <string.h>
+char *strchr(const char *s, int c);   // first occurrence (left to right)
+char *strrchr(const char *s, int c);  // last occurrence (right to left)
+
+
+- Both return the **address** of the character found, not the index.
+- If the character is not found, they return `NULL`.
+- Printing the result with `%s` prints the string **from that address onwards**.
+
+### Example
+
+```c
+char s[] = "embedded";   // suppose s is stored at address 100
+char ch = 'e';
+
+printf("%u\n", s);                // 100
+printf("%s\n", strchr(s, ch));    // embedded
+printf("%u\n", strchr(s, ch));    // 100
+printf("%u\n", strrchr(s, ch));   // 106
+printf("%s\n", strrchr(s, ch));   // ed
+```
+
+Memory layout:
+
+| Index   | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   |
+|---------|-----|-----|-----|-----|-----|-----|-----|-----|
+| Char    | e   | m   | b   | e   | d   | d   | e   | d   |
+| Address | 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 |
+
+- `strchr` scans from the left and stops at the first `'e'` (address 100).
+- `strrchr` scans from the right and stops at the last `'e'` (address 106).
+
+If `ch = 'b'`, then `strchr = 102` and `strrchr = 102`. There is only one `'b'`, so both give the same address.
+
+---
+
+## 2. `strstr()`: locate a substring
+
+```c
+#include <string.h>
+char *strstr(const char *haystack, const char *needle);
+//                       (main string)       (sub string)
+```
+
+- The first argument is the main string, the second is the substring to find.
+- If the substring is found, it returns the **address** of the substring in the main string.
+- If the substring is **not found**, it returns `NULL` (`0`).
+
+### Example
+
+```c
+char m[] = "embedded";   // m at address 100
+char s[] = "be";
+
+printf("%u\n", m);                // 100
+printf("%u\n", strstr(m, s));     // 102
+printf("%s\n", strstr(m, s));     // bedded
+```
+
+`"be"` starts at index 2 (address 102), so `%s` prints from there: `bedded`.
+
+---
+
+## 3. WAP to design user-defined `strlen()`
+
+```c
+#include <stdio.h>
+
+int my_strlen(const char *);
+
+int main()
+{
+    char s[100];
+    printf("Enter a string\n");
+    scanf("%s", s);
+    printf("%d\n", my_strlen(s));
+    return 0;
+}
+
+int my_strlen(const char *p)
+{
+    int i;
+    for (i = 0; p[i]; i++);   // loop stops when p[i] is '\0'
+    return i;
+}
+```
+
+Input: `embedded` → Output: `8`
+
+---
+
+## 4. WAP to design user-defined `strchr()`
+
+```c
+#include <stdio.h>
+
+char *my_strchr(const char *, char);
+
+int main()
+{
+    char s[20];
+    printf("Enter a string\n");
+    scanf("%s", s);
+
+    char ch;
+    printf("Enter a character\n");
+    scanf(" %c", &ch);
+
+    char *p = my_strchr(s, ch);
+    if (p)
+        printf("char present\n");
+    else
+        printf("char not present\n");
+    return 0;
+}
+
+char *my_strchr(const char *p, char ch)
+{
+    int i;
+    for (i = 0; p[i]; i++)
+    {
+        if (p[i] == ch)
+            return (char *)&p[i];   // address of first match
+    }
+    return 0;                       // not found → NULL
+}
+```
+
+Trace for `"embedded"` with `ch = 'b'`: `i = 0` (`e`), `i = 1` (`m`), `i = 2` (`b`, match) → returns address 102.
+
+---
+
+## 5. WAP to design user-defined `strcpy()`
+
+Library prototype:
+
+```c
+char *strcpy(char *restrict dest, const char *restrict src);
+```
+
+User-defined version (returns `void`):
+
+```c
+#include <stdio.h>
+
+void my_strcpy(const char *, char *);   // (source, dest)
+
+int main()
+{
+    char s[20];
+    printf("Enter a string\n");
+    scanf("%s", s);
+
+    char d[20];
+    my_strcpy(s, d);
+    printf("%s\n", d);
+    return 0;
+}
+```
+
+### Method 1: array indexing
+
+```c
+void my_strcpy(const char *s, char *d)
+{
+    int i;
+    for (i = 0; s[i]; i++)
+        d[i] = s[i];
+    d[i] = '\0';        // terminate the destination string
+}
+```
+
+### Method 2: pointers
+
+```c
+void my_strcpy(const char *s, char *d)
+{
+    while (*s)
+    {
+        *d++ = *s++;    // copy, then move both pointers
+    }
+    *d = '\0';          // terminate the destination string
+}
+```
+
+> Always add `'\0'` at the end of the destination. The loop stops *before* copying the null character.
+
+---
+
+## Quick summary
+
+| Function      | Purpose                         | Returns                          |
+|---------------|---------------------------------|----------------------------------|
+| `strchr`      | First occurrence of a character | Address, or `NULL`               |
+| `strrchr`     | Last occurrence of a character  | Address, or `NULL`               |
+| `strstr`      | Find a substring                | Address of substring, or `NULL`  |
+| `my_strlen`   | Length of a string              | `int`                            |
+| `my_strchr`   | Custom `strchr`                 | Address, or `0`                  |
+| `my_strcpy`   | Copy source to destination      | `void`                           |
+
