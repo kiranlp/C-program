@@ -235,30 +235,26 @@ If ch = 'b', then  strchr = 102 and  strrchr = 102. There is only -one 'b', so b
 
  7. strstr(): locate a substring
 
-```c
 #include <string.h>
 char *strstr(const char *haystack, const char *needle);
-//                       (main string)       (sub string)
-```
+                        (main string)       (sub string)
+
 
 - The first argument is the main string, the second is the substring to find.
-- If the substring is found, it returns the **address** of the substring in the main string.
-- If the substring is **not found**, it returns `NULL` (`0`).
+- If the substring is found, it returns the - address of the substring in the main string.
+- If the substring is - not found, it returns NULL (0).
 
-### Example
+ Example:
 
-```c
-char m[] = "embedded";   // m at address 100
+char m[] = "embedded";    // m at address 100
 char s[] = "be";
 
-printf("%u\n", m);                // 100
+printf("%u\n", m);                // 100   (base address)
 printf("%u\n", strstr(m, s));     // 102
-printf("%s\n", strstr(m, s));     // bedded
-```
+printf("%s\n", strstr(m, s));     // bedded  (observe specifier (%s))
 
-`"be"` starts at index 2 (address 102), so `%s` prints from there: `bedded`.
+"be" starts at index 2 (address 102), so %s prints from there: 'bedded'.
 
----
 
 ## 3. WAP to design user-defined `strlen()`
 
