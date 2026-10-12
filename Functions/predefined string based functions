@@ -381,8 +381,10 @@ void my_strcpy(const char *s, char *d)
 |  my_strcpy   | Copy source to destination      |  void                            |
 
 
-  string_programs.c
-  User-defined string functions using pointers
+
+  Examples:
+  
+ User-defined string functions using pointers
    1. Reverse a string
    2. Reverse each word
    3. Reverse word order
