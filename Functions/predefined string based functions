@@ -470,19 +470,20 @@ void prog_reverse_each_word(void)
     scanf(" %99[^\n]", s);
     string_print(s);
 
-    p = s;                              /* p holds string base address */
-    while ((q = my_strchr(p, ' ')))     /* searching word */
+    p = s;                              // p holds string base address 
+    while ((q = my_strchr(p, ' ')))     // searching word 
     {
-        my_strrev1(p, q - 1);           /* reversing word */
-        p = q + 1;                      /* next word start address */
+        my_strrev1(p, q - 1);           // reversing word 
+        p = q + 1;                      // next word start address 
     }
-    my_strrev(p);                       /* reversing last word */
+    my_strrev(p);                       // reversing last word 
 
     string_print(s);
 }
 
 
  3. "vector india pvt ltd" -> "ltd pvt india vector" 
+
 void prog_reverse_word_order(void)
 {
     char s[100], *p, *q;
@@ -491,7 +492,7 @@ void prog_reverse_word_order(void)
     scanf(" %99[^\n]", s);
     string_print(s);
 
-    my_strrev(s);                       /* only change vs program 2 */
+    my_strrev(s);                       // only change vs program 2 
 
     p = s;
     while ((q = my_strchr(p, ' ')))
@@ -514,15 +515,17 @@ void prog_delete_char(void)
     printf("Enter a string:\n");
     scanf("%19s", s);
     printf("Enter a char:\n");
-    scanf(" %c", &ch);                  /* space skips leftover newline */
+    scanf(" %c", &ch);                  // space skips leftover newline 
 
     string_print(s);
     while ((p = my_strchr(s, ch)))
-        my_strcpy(p + 1, p);            /* shift left over the match */
+        my_strcpy(p + 1, p);            // shift left over the match 
     string_print(s);
 }
 
-/* 5. "embedded", "be" -> "emdded" (uses predefined functions) */
+
+ 5. "embedded", "be" -> "emdded" (uses predefined functions) 
+
 void prog_delete_substring(void)
 {
     char m[50], s[10], *p;
@@ -538,7 +541,6 @@ void prog_delete_substring(void)
     printf("After : %s\n", m);
 }
 
-/* ---------- main ---------- */
 
 int main()
 {
