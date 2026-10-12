@@ -380,3 +380,186 @@ void my_strcpy(const char *s, char *d)
 |  my_strchr   | Custom  strchr                  | Address, or  0                   |
 |  my_strcpy   | Copy source to destination      |  void                            |
 
+
+  string_programs.c
+  User-defined string functions using pointers
+   1. Reverse a string
+   2. Reverse each word
+   3. Reverse word order
+   4. Delete a char from a string
+   5. Delete a substring (predefined functions)
+
+
+#include <stdio.h>
+#include <string.h>
+void string_print(const char *p)
+{
+    printf("%s\n", p);
+}
+
+int my_strlen(const char *p)
+{
+    const char *q = p;
+    while (*q)
+        q++;
+    return q - p;
+}
+
+
+// first match address, NULL if not found 
+
+char *my_strchr(const char *p, char ch)
+{
+    while (*p) {
+        if (*p == ch)
+            return (char *)p;
+        p++;
+    }
+    return NULL;
+}
+
+/* copies src to dest (src first) */
+void my_strcpy(const char *src, char *dest)
+{
+    while ((*dest++ = *src++))
+        ;
+}
+
+// reverse between two pointers: p = first char, q = last char 
+void my_strrev1(char *p, char *q)
+{
+    char t;
+    while (p < q) {
+        t = *p;
+        *p = *q;
+        *q = t;
+        p++;
+        q--;
+    }
+}
+
+// reverse whole string 
+void my_strrev(char *p)
+{
+    my_strrev1(p, p + my_strlen(p) - 1);
+}
+
+
+ 1. "embedded" -> "deddebme" 
+
+void prog_strrev(void)
+{
+    char s[20];
+
+    printf("Enter a string\n");
+    scanf("%19s", s);
+
+    string_print(s);
+    my_strrev(s);
+    string_print(s);
+}
+
+
+ 2. "vector india pvt ltd" -> "rotcev aidni tvp dtl" 
+
+void prog_reverse_each_word(void)
+{
+    char s[100], *p, *q;
+
+    printf("Enter a string\n");
+    scanf(" %99[^\n]", s);
+    string_print(s);
+
+    p = s;                              /* p holds string base address */
+    while ((q = my_strchr(p, ' ')))     /* searching word */
+    {
+        my_strrev1(p, q - 1);           /* reversing word */
+        p = q + 1;                      /* next word start address */
+    }
+    my_strrev(p);                       /* reversing last word */
+
+    string_print(s);
+}
+
+
+ 3. "vector india pvt ltd" -> "ltd pvt india vector" 
+void prog_reverse_word_order(void)
+{
+    char s[100], *p, *q;
+
+    printf("Enter a string\n");
+    scanf(" %99[^\n]", s);
+    string_print(s);
+
+    my_strrev(s);                       /* only change vs program 2 */
+
+    p = s;
+    while ((q = my_strchr(p, ' ')))
+    {
+        my_strrev1(p, q - 1);
+        p = q + 1;
+    }
+    my_strrev(p);
+
+    string_print(s);
+}
+
+
+ 4. "embedded", 'e' -> "mbddd" 
+
+void prog_delete_char(void)
+{
+    char s[20], *p, ch;
+
+    printf("Enter a string:\n");
+    scanf("%19s", s);
+    printf("Enter a char:\n");
+    scanf(" %c", &ch);                  /* space skips leftover newline */
+
+    string_print(s);
+    while ((p = my_strchr(s, ch)))
+        my_strcpy(p + 1, p);            /* shift left over the match */
+    string_print(s);
+}
+
+/* 5. "embedded", "be" -> "emdded" (uses predefined functions) */
+void prog_delete_substring(void)
+{
+    char m[50], s[10], *p;
+
+    printf("Enter main string:\n");
+    scanf("%49s", m);
+    printf("Enter substring:\n");
+    scanf("%9s", s);
+
+    printf("Before: %s\n", m);
+    while ((p = strstr(m, s)))
+        memmove(p, p + strlen(s), strlen(p + strlen(s)) + 1);
+    printf("After : %s\n", m);
+}
+
+/* ---------- main ---------- */
+
+int main()
+{
+    int choice;
+
+    printf("1. Reverse string\n"
+           "2. Reverse each word\n"
+           "3. Reverse word order\n"
+           "4. Delete char\n"
+           "5. Delete substring\n"
+           "Enter choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+    case 1: prog_strrev();             break;
+    case 2: prog_reverse_each_word();  break;
+    case 3: prog_reverse_word_order(); break;
+    case 4: prog_delete_char();        break;
+    case 5: prog_delete_substring();   break;
+    default: printf("Invalid choice\n");
+    }
+
+    return 0;
+}
