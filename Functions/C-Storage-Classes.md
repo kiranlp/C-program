@@ -1,6 +1,5 @@
 # Storage Classes in C (auto & static)
 
-> Notes by Kiran Kumar | Embedded Systems & VLSI | 12/10/26
 
 ## Table of Contents
 1. [Overview](#1-overview)
