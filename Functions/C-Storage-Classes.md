@@ -1,4 +1,4 @@
-# Storage Classes in C (auto & static)
+# Storage Classes in C 
 
 
 ## Table of Contents
