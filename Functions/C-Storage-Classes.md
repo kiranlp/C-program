@@ -429,4 +429,200 @@ void abc(void)
 
 ---
 
-*Next topics: `extern` and `register` storage classes.*
+
+
+## 3. extern storage class
+
+When we design any function, by default the function is of **extern type**, which has the **external linkage** property. We can call it from the file where it is present, as well as from any other file.
+
+---
+
+## 3.1. Static function vs extern function (multi-file)
+
+At the time of designing a function, if we write the `static` keyword to it, the function is called a **static function**. It has the **internal linkage** property, so we can call it **only from the file where it is defined**.
+
+### File 1 (`m1.c`)
+
+```c
+void display(const char *);
+void display1(const char *);
+
+int main()
+{
+    display("hello..");
+    display1("hai..");
+    return 0;
+}
+```
+
+### File 2 (`m2.c`)
+
+```c
+#include <stdio.h>
+
+void display(const char *p)             // extern by default (external linkage)
+{
+    printf("%s\n", p);
+}
+
+static void display1(const char *p)     // static function (internal linkage)
+{
+    printf("%s\n", p);
+}
+```
+
+### Compilation flow
+
+```bash
+cc m1.c m2.c
+```
+
+```
+m1.c -> m1.i -> m1.s -> m1.o  \
+                               >-- linker links the two files --> ./a.out
+m2.c -> m2.i -> m2.s -> m2.o  /
+```
+
+### Result
+
+- `display("hello..")` works, because `display` has external linkage.
+- `display1("hai..")` fails at **link time** (undefined reference to `display1`), because `display1` is `static` in `m2.c` and cannot be called from `m1.c`.
+
+---
+
+## 3.2 extern variable (declaration vs definition)
+
+### File 1 (`e1.c`)
+
+```c
+#include <stdio.h>
+
+extern int i;       // declaration of i
+
+int main()
+{
+    printf("i=%d\n", i);
+    return 0;
+}
+```
+
+### File 2 (`e2.c`)
+
+```c
+int i = 10;         // definition of i
+```
+
+| Statement | Meaning | Memory allocated? |
+|-----------|---------|-------------------|
+| `int i = 10;` | **Definition** of `i` | Yes (4 bytes) |
+| `extern int i;` | **Declaration** of `i`. We are informing the compiler (translator) that the variable may be available in another file | No |
+
+Both files have external linkage for `i`.
+
+Compile and run:
+
+```bash
+cc e1.c e2.c
+./a.out
+```
+
+**Output:** `i=10`
+
+---
+
+## 4. Default storage class of a global variable
+
+**Q. If we declare a global variable and no storage class is mentioned, what is its default storage class?**
+
+**A.** By default, a global variable has **static storage duration with external linkage**.
+
+```c
+int l;               // global declaration + definition
+                     // 4 bytes memory allocated
+                     // external linkage
+
+extern int i;        // declaration only (definition is in another file)
+
+static int j = 10;   // declaration + definition, 4 bytes, internal linkage
+static int k;        // declaration + definition, 4 bytes, internal linkage
+
+int main()
+{
+    // ...
+}
+```
+
+### Where they live in memory (data section)
+
+```
+| j : initialized     |   (static int j = 10;)
+| k : un-initialized  |   (static int k;)
+| l : common          |   (int l;)
+| DMA : extended      |   (dynamic memory allocation)
+```
+
+---
+
+## 5. register storage class
+
+```c
+#include <stdio.h>
+
+// register int i;                      // invalid -> Error (can't be global)
+
+int main()
+{
+    register int i = 10;                // valid, useful for faster execution
+    printf("i=%d\n", i);                // i=10
+    return 0;
+}
+```
+
+```c
+int main()
+{
+    register int i;
+    printf("enter i value:\n");
+    scanf("%d", &i);                    // Error (can't take address of register variable)
+    printf("i=%d\n", i);
+    return 0;
+}
+```
+
+Key points:
+- A `register` variable doesn't have a memory location. It has only a **CPU register** (storage), so you can't use `&` on it.
+- `register` can't be used for global variables (only local/block scope).
+- `register` is also useful for **faster execution**.
+- Both `auto` and `register` variables are similar (block scope, no linkage, garbage default value, life = function execution).
+
+> Note: In modern compilers `register` is only a hint. The compiler may ignore it and decide on its own which variables go in CPU registers.
+
+---
+
+## 6. Summary of all storage classes
+
+| Variable | Keyword | Scope | Linkage | Default value | Storage |
+|----------|---------|-------|---------|---------------|---------|
+| Automatic | `auto` | Block | No | Garbage | Stack |
+| Register | `register` | Block | No | Garbage | CPU register |
+| Static local | `static` | Block | No | Zero | Data section |
+| Static global | `static` | File | Internal | Zero | Data section |
+| External | `extern` | File | External | Zero | Data section |
+
+### Life (lifetime)
+
+| Variable | Lifetime |
+|----------|----------|
+| Auto | Function execution start to end |
+| Register | Function execution start to end |
+| Static local | Program execution start to end |
+| Static global | Program execution start to end |
+| External | Program execution start to end |
+
+### Function storage classes (only two apply)
+
+| Function type | Linkage | Callable from |
+|---------------|---------|---------------|
+| Default / `extern` | External | Any file |
+| `static` | Internal | Only the file where it is defined |
+
