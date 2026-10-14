@@ -9,6 +9,10 @@
 5. [Dangling pointer](#5-dangling-pointer)
 6. [static storage class](#6-static-storage-class)
 7. [auto vs static summary](#7-auto-vs-static-summary)
+8. [Extern storage class](#8-extern-storage-class)
+9. [Register storage class](#9-register-storage-class)
+10. [summary of all class](#10-summary-of-all-class)
+   
 
 ---
 
